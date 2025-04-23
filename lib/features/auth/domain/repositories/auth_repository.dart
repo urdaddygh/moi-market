@@ -1,3 +1,3 @@
 abstract class AuthRepository {
-  Future<String?> fetchToken(String login, String password);
+  Future<String?> login(String phone, String password);
 }

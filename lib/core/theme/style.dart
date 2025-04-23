@@ -17,7 +17,7 @@ class Style {
   static const double defaultPaddingVertical = 30.0;
 
   static const double buttonHeight = 50.0;
-  static const double buttonBorderRadius = 30.0;
+  static const double buttonBorderRadius = 10.0;
 
   static const double bottomNavigatorBarHeight = 55.0;
   static double bottomNavigatorItemWidth = 80;
@@ -26,27 +26,15 @@ class Style {
 
   static double drawerItemHeight = 50;
 
-  static const Color primaryColor = Color(0xFF2F75EA);
-  static const Color primaryGreenColor = Color(0xFF50CE6C);
-  static const Color primaryVioletColor = Color(0xFF8736EC);
+  static const Color primaryColor = Color(0xFF221654);
+  static const Color primarySecondColor = Color(0xFFF1612D);
   static const Color primaryErrorColor = Color(0xFFEE5E37);
-  static const Color primaryLightGreyColor = Color(0xFFE5E8ED);
-  static const Color primaryDarkGreyColor = Color(0xFF8B8E93);     
+  static const Color primaryLightGreyColor = Color(0xFFD0C9D8);
   static const Color primaryWhiteColor = Color(0xFFFFFFFF);
-  static const Color primaryBlackColor = Color(0xFF0E121B);
+  static const Color primaryBlackColor = Color(0xFF242424);
 
-  static const Color statusDoneColor = Color(0xFF38B33E);
-  static const Color statusAssignColor = Color(0xFFFB950B);
-  static const Color statusInProgressColor = Color(0xFF3595FF);
-  static const Color greenAuthButtonColor = Color(0xFF00B65B);
-  static const Color coreSecondaryColor = Color(0xFF324367);
 
-  static const Color cardReceiptColor = Color(0xFFF1F6FF);
-
-  static double cdtPhotoCardWidth = 60;
-  static double cdtPhotoCardHeight = cdtPhotoCardWidth;
-  static double cdtTaskIconSize = 24;
-  static double defaultIconSize = 24;
+  static const Color hintTextColor = Color(0xFFD9D9D9);
 
   static const formButtonText = TextStyle(
     fontWeight: FontWeight.w600,
@@ -60,24 +48,39 @@ class Style {
     color: Style.primaryWhiteColor,
   );
 
-  static final formButtonDecoration = ElevatedButton.styleFrom(
-    minimumSize: const Size(double.infinity, 53), // Ширина на всю, высота 53
-    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 10),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(100),
-    ),
-    backgroundColor: Style.primaryLightGreyColor, // Цвет активный / неактивный
-    foregroundColor: Colors.white, // Цвет текста/иконки
-    disabledBackgroundColor: Colors.grey[300], // Цвет когда disabled
-    disabledForegroundColor: Colors.white70,
+  static const buttonText = TextStyle(
+    color: Style.primaryWhiteColor,
+    fontSize: 18,
+    fontWeight: FontWeight.w700,
   );
+
+  static const mainText = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 14,
+    color: primaryBlackColor,
+  );
+
+  static const noticeableText = TextStyle(
+    fontWeight: FontWeight.w700,
+    fontSize: 24,
+    color: primaryColor,
+  );
+
+  static const textFormFieldStyle = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 14,
+    color: primaryBlackColor,
+  );
+  // static final formButtonDecoration = ElevatedButton.styleFrom(
+  //   backgroundColor: Style.primaryLightGreyColor,
+  // );
 
   static final formFieldDecoration = InputDecoration(
     constraints: const BoxConstraints(minHeight: 51),
     hintStyle: const TextStyle(
       letterSpacing: 1,
       fontWeight: FontWeight.w400,
-      color: Style.primaryDarkGreyColor
+      color: Style.primaryLightGreyColor
     ),
     focusedBorder: const OutlineInputBorder(
       borderRadius: BorderRadius.all(Radius.circular(100)),
@@ -101,24 +104,6 @@ class Style {
       borderRadius: BorderRadius.circular(100),
       borderSide: const BorderSide(color: Style.primaryErrorColor, width: 1),
     ),
-  );
-
-  static const buttonText = TextStyle(
-    color: Style.primaryWhiteColor,
-    fontSize: 18,
-    fontWeight: FontWeight.w700,
-  );
-
-  static const mainText = TextStyle(
-    fontWeight: FontWeight.w400,
-    fontSize: 14,
-    color: primaryBlackColor,
-  );
-
-  static const noticeableText = TextStyle(
-    fontWeight: FontWeight.w700,
-    fontSize: 24,
-    color: primaryColor,
   );
 
   static const formShadows = <BoxShadow>[

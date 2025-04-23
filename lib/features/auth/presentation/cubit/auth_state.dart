@@ -7,17 +7,11 @@ enum AuthEventState {
   loading,
   error
 }
-enum AuthUsing {
-  gmail,
-  apple,
-  yandex
-}
 
 @freezed
 class AuthState with _$AuthState {
   const factory AuthState({
     @Default(AuthEventState.initial) AuthEventState eventState,
-    @Default(AuthUsing.gmail) AuthUsing authUsing,
     String? message,
   }) = _Initial;
 }

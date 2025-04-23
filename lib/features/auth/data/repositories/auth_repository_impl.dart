@@ -9,7 +9,7 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({required this.api});
 
   @override
-  Future<String?> fetchToken(String login, String password) {
-    return api.fetchToken(login: login, password: password);
+  Future<String?> login(String phone, String password) {
+    return api.login(phone: phone, password: password);
   }
 }
