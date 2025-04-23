@@ -14,14 +14,8 @@ class AuthPage extends StatefulWidget {
 }
 
 class _AuthPageState extends State<AuthPage> {
-  bool _obscure = true;
   bool showInitAuthScreen = true;
 
-  void _toggleVisibility() {
-    setState(() {
-      _obscure = !_obscure;
-    });
-  }
   void _toggleScreen(){
     setState(() {
       showInitAuthScreen = false;

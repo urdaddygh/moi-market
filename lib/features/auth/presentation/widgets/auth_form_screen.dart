@@ -29,7 +29,12 @@ class _AuthFormScreenState extends State<AuthFormScreen> {
       _obscure = !_obscure;
     });
   }
-
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
   final _formKey = GlobalKey<FormState>();
 
   @override
