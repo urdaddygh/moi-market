@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get_it/get_it.dart';
 
-void registerApiServiceDi({required String token}) {
+void registerApiServiceDi({String? token}) {
   if (kDebugMode) print('Cookie = $token');
 
   if (GetIt.I.isRegistered<Dio>()) {
@@ -12,10 +12,10 @@ void registerApiServiceDi({required String token}) {
   GetIt.I.registerSingleton<Dio>(
     Dio(
       BaseOptions(
-        baseUrl: 'https://example.com/api',
-        headers: {
+        baseUrl: 'http://206.189.43.230:8000/api/client/',
+        headers: token != null ? {
           'Authorization': token,
-        },
+        } : null,
         connectTimeout: const Duration(seconds: 60),
         receiveTimeout: const Duration(seconds: 60),
         sendTimeout: const Duration(seconds: 60),

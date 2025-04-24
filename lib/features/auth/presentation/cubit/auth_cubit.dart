@@ -22,11 +22,11 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       var message = await GetIt.I.get<AuthRepository>().login(phone, password);
 
-      emit(state.copyWith(message: message));
+      
       if(!context.mounted) return;
 
-      if(message == 'OK') {
-        context.goNamed(Routes.main);
+      if(message?.fullName == 'Ivan Ivanov') {
+        UiTools.showSnackBar(context: context, message: 'все ок', );
       } else {
         UiTools.showSnackBar(context: context, message: 'Что то пошло не так', );
       }

@@ -12,7 +12,7 @@ abstract class BaseApiService {
 
   BaseApiService(this.client);
 
-  Future<CommonResponse?> baseRequest({
+  Future<dynamic> baseRequest({
     required String endpoint,
     Map<String, dynamic>? queryParameters,
     Object? data,
@@ -49,7 +49,7 @@ abstract class BaseApiService {
         throw DataIsEmptyException('Запрос пришел без данных');
       }
 
-      return CommonResponse.fromJson(response.data);
+      return response.data;
     } on DioException catch (e) {
       logger.e('[BaseApiService] DioException: ${e.response?.statusCode} - ${e.type}');
       throw UnexpectedErrorException('Status - ${e.response?.statusCode}, error - ${e.error}, type - ${e.type}');

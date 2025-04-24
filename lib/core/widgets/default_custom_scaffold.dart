@@ -55,19 +55,6 @@ class DefaultCustomScaffold extends StatelessWidget {
     );
   }
 
-  // Widget _buildCurrentBranch() {
-  //   return IndexedStack(
-  //     index: navigationShell.currentIndex,
-  //     children: navigationShell.branches.map((branch) {
-  //       return Navigator(
-  //         key: branch.navigatorKey,
-  //         onGenerateRoute: (settings) => MaterialPageRoute(
-  //           builder: (context) => Container(), // Заглушка
-  //         ),
-  //       );
-  //     }).toList(),
-  //   );
-  // }
 
   void _onItemTapped(int index, BuildContext context) {
     navigationShell.goBranch(
@@ -83,7 +70,7 @@ class DefaultCustomScaffold extends StatelessWidget {
         height: 45,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: isActive ? const Color(0x22165414) : Colors.transparent,
+          color: isActive ? Style.primaryColor.withValues(alpha: 0.2) : Colors.transparent,
           borderRadius: BorderRadius.circular(10),
         ),
         child: Icon(icon, size: 24, color: isActive ? Style.primaryColor : Colors.black),

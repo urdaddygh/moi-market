@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:moi_market/core/theme/style.dart';
-import 'package:moi_market/core/widgets/ink_icon_spacer.dart';
 
 class DefaultCustomHeader extends StatelessWidget {
   const DefaultCustomHeader({super.key, required this.title});

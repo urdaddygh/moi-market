@@ -1,3 +1,5 @@
+import 'package:moi_market/features/auth/data/models/success_login.dart';
+
 abstract class AuthRepository {
-  Future<String?> login(String phone, String password);
+  Future<SuccessLogin?> login(String phone, String password);
 }

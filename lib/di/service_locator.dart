@@ -29,7 +29,7 @@ class ServiceLocator {
 
     final token = await getIt<LocalStorage>().fetchToken();
 
-    await _initDio('token');
+    await _initDio(token);
     await _initRouter(token);
     initAuthModule();
     initHomeModule();
@@ -43,9 +43,7 @@ class ServiceLocator {
   }
 
   Future<void> _initDio(String? token) async {
-    if (token != null) {
-      registerApiServiceDi(token: token);
-    }
+    registerApiServiceDi(token: token);
   }
 
   Future<void> _initRouter(String? token) async {

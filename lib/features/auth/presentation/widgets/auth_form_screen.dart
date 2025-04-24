@@ -1,17 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:moi_market/core/theme/style.dart';
 import 'package:moi_market/core/utils/text_field_validators.dart';
-import 'package:moi_market/core/utils/ui_tools.dart';
-import 'package:moi_market/core/widgets/default_custom_scaffold.dart';
 import 'package:moi_market/core/widgets/default_custom_wrapper.dart';
 import 'package:moi_market/core/widgets/default_elevated_button.dart';
 import 'package:moi_market/core/widgets/default_text_form_field.dart';
 import 'package:moi_market/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:moi_market/features/auth/presentation/cubit/auth_state.dart';
 import 'package:moi_market/features/auth/presentation/widgets/auth_text.dart';
-import 'package:moi_market/routes/app_router.dart';
 
 class AuthFormScreen extends StatefulWidget {
   const AuthFormScreen({super.key});
@@ -21,8 +17,8 @@ class AuthFormScreen extends StatefulWidget {
 }
 
 class _AuthFormScreenState extends State<AuthFormScreen> {
-  final TextEditingController _phoneController = TextEditingController(text: '');
-  final TextEditingController _passwordController = TextEditingController(text: '');
+  final TextEditingController _phoneController = TextEditingController(text: '+996555112233');
+  final TextEditingController _passwordController = TextEditingController(text: '1q2w3e4r');
   bool _obscure = true;
 
   void _toggleVisibility() {

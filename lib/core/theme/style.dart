@@ -67,10 +67,10 @@ class Style {
     color: primaryBlackColor,
   );
 
-  static const secondMainText = TextStyle(
-    fontWeight: FontWeight.w400,
-    fontSize: 14,
-    color: primaryBlackColor,
+  static const iconText = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 10,
+    color: primaryWhiteColor,
   );
 
   static const noticeableText = TextStyle(
