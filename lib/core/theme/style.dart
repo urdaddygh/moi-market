@@ -18,6 +18,7 @@ class Style {
 
   static const double buttonHeight = 50.0;
   static const double buttonBorderRadius = 10.0;
+  static const defaultIconSize = baseUnit * 6;
 
   static const double bottomNavigatorBarHeight = 55.0;
   static double bottomNavigatorItemWidth = 80;
@@ -42,6 +43,12 @@ class Style {
     color: Style.primaryWhiteColor,
   );
 
+  static const titleText = TextStyle(
+    fontWeight: FontWeight.w700,
+    fontSize: 24,
+    color: primaryBlackColor,
+  );
+
   static const authPageTitleText = TextStyle(
     fontWeight: FontWeight.w600,
     fontSize: 24,
@@ -55,6 +62,12 @@ class Style {
   );
 
   static const mainText = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 14,
+    color: primaryBlackColor,
+  );
+
+  static const secondMainText = TextStyle(
     fontWeight: FontWeight.w400,
     fontSize: 14,
     color: primaryBlackColor,

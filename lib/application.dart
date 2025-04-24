@@ -8,6 +8,9 @@ import 'package:moi_market/core/theme/app_theme.dart';
 import 'package:moi_market/features/auth/domain/repositories/auth_repository.dart';
 import 'package:moi_market/features/auth/presentation/cubit/auth_cubit.dart';
 import 'package:moi_market/features/home/presentation/cubit/home_cubit.dart';
+import 'package:moi_market/features/notification/presentation/cubit/notification_cubit.dart';
+import 'package:moi_market/features/personal_account/presentation/cubit/personal_account_cubit.dart';
+import 'package:moi_market/features/referrals/presentation/cubit/referrals_cubit.dart';
 
 class Application extends StatelessWidget {
   const Application({super.key});
@@ -19,6 +22,9 @@ class Application extends StatelessWidget {
       providers: [
         BlocProvider(create: (context) => AuthCubit(GetIt.I<AuthRepository>())),
         BlocProvider(create: (context) => HomeCubit()),
+        BlocProvider(create: (context) => ReferralsCubit()),
+        BlocProvider(create: (context) => PersonalAccountCubit()),
+        BlocProvider(create: (context) => NotificationCubit()),
       ],
       child: MaterialApp.router(
         theme: lightTheme,

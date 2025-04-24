@@ -9,21 +9,24 @@ class InitAuthScreen extends StatelessWidget {
   final void Function()? onTap;
   @override
   Widget build(BuildContext context) {
-    return DefaultCustomScaffold(
+    return Scaffold(
         backgroundColor: Style.primaryColor,
-        body: Column(
-          children: [
-            Expanded(
-              child: Center(
-                child: Image.asset('assets/images/auth_init_icon.png'),
+        body: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: Style.defaultSpacing, vertical: Style.defaultPaddingVertical),
+          child: Column(
+            children: [
+              Expanded(
+                child: Center(
+                  child: Image.asset('assets/images/auth_init_icon.png'),
+                ),
               ),
-            ),
-            Column(children: [
-              const AuthText(color: Style.primaryWhiteColor),
-              const SizedBox(height: Style.largeSpacing),
-              DefaultElevatedButton(onPressed: onTap, text: 'Войти', color: Style.primaryWhiteColor, textColor: Style.primaryColor)
-            ],)
-          ],
+              Column(children: [
+                const AuthText(color: Style.primaryWhiteColor),
+                const SizedBox(height: Style.largeSpacing),
+                DefaultElevatedButton(onPressed: onTap, text: 'Войти', color: Style.primaryWhiteColor, textColor: Style.primaryColor)
+              ],)
+            ],
+          ),
         ));
   }
 }

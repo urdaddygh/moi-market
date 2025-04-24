@@ -4,6 +4,7 @@ import 'package:moi_market/core/theme/style.dart';
 
 final lightTheme = ThemeData(
   fontFamily: 'Muller',
+  fontFamilyFallback: const ['Roboto'],
   // bottomNavigationBarTheme: const BottomNavigationBarThemeData(
   //   unselectedLabelStyle: Style.bottomNavigatorText,
   // ),

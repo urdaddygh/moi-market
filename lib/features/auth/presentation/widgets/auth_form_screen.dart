@@ -5,6 +5,7 @@ import 'package:moi_market/core/theme/style.dart';
 import 'package:moi_market/core/utils/text_field_validators.dart';
 import 'package:moi_market/core/utils/ui_tools.dart';
 import 'package:moi_market/core/widgets/default_custom_scaffold.dart';
+import 'package:moi_market/core/widgets/default_custom_wrapper.dart';
 import 'package:moi_market/core/widgets/default_elevated_button.dart';
 import 'package:moi_market/core/widgets/default_text_form_field.dart';
 import 'package:moi_market/features/auth/presentation/cubit/auth_cubit.dart';
@@ -39,69 +40,71 @@ class _AuthFormScreenState extends State<AuthFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return DefaultCustomScaffold(
+    return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const AuthText(),
-          const SizedBox(
-            height: Style.defaultSpacing * 2,
-          ),
-          Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  DefaultTextFormField(
-                    keyboardType: TextInputType.phone,
-                    controller: _phoneController,
-                    hintText: 'Номер телефона',
-                    validator: TextFieldValidators.cantBeEmptyValidator(context: context),
-                  ),
-                  const SizedBox(height: Style.defaultSpacing),
-                  DefaultTextFormField(
-                    controller: _passwordController,
-                    validator: TextFieldValidators.cantBeEmptyValidator(context: context),
-                    obscureText: _obscure,
-                    suffixIcon: IconButton(
-                      icon: Icon(
-                        _obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
-                        color: Style.hintTextColor,
+      child: Scaffold(
+        backgroundColor: Style.primaryWhiteColor,
+        body: DefaultCustomWrapper(
+          onTap: () => FocusScope.of(context).unfocus(),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const AuthText(),
+              const SizedBox(
+                height: Style.defaultSpacing * 2,
+              ),
+              Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      DefaultTextFormField(
+                        keyboardType: TextInputType.phone,
+                        controller: _phoneController,
+                        hintText: 'Номер телефона',
+                        validator: TextFieldValidators.cantBeEmptyValidator(context: context),
                       ),
-                      onPressed: _toggleVisibility,
-                    ),
-                    hintText: 'Пароль',
-                    onChanged: (p0) => {setState(() {})},
-                  ),
-                  const SizedBox(height: Style.bigSpacing * 2),
-                  BlocBuilder<AuthCubit, AuthState>(
-                    builder: (context, state) {
-                      return DefaultElevatedButton(
-                        isLoading: state.eventState == AuthEventState.loading,
-                        text: 'Войти',
-                        onPressed: () async {
-                          if (_formKey.currentState?.validate() ?? false) {
-                            await BlocProvider.of<AuthCubit>(context).tryLogin(
-                              password: _passwordController.text,
-                              phone: _phoneController.text,
-                            );
-                            if(!context.mounted) return;
-                            if(state.message == 'OK') {
-                              context.goNamed(Routes.home);
-                            } else {
-                              UiTools.showSnackBar(context: context, message: 'Что то пошло не так', );
-                            }
-                          }
+                      const SizedBox(height: Style.defaultSpacing),
+                      DefaultTextFormField(
+                        controller: _passwordController,
+                        validator: TextFieldValidators.cantBeEmptyValidator(context: context),
+                        obscureText: _obscure,
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            _obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                            color: Style.hintTextColor,
+                          ),
+                          onPressed: _toggleVisibility,
+                        ),
+                        hintText: 'Пароль',
+                        onChanged: (p0) => {setState(() {})},
+                      ),
+                      const SizedBox(height: Style.bigSpacing * 2),
+                      BlocBuilder<AuthCubit, AuthState>(
+                        builder: (context, state) {
+                          return DefaultElevatedButton(
+                            isLoading: state.eventState == AuthEventState.loading,
+                            text: 'Войти',
+                            onPressed: () async {
+                              if (_formKey.currentState?.validate() ?? false) {
+                                await BlocProvider.of<AuthCubit>(context).tryLogin(
+                                  password: _passwordController.text,
+                                  phone: _phoneController.text,
+                                  context: context
+                                );
+
+                              }
+                            },
+                            color: _passwordController.text.isNotEmpty && _phoneController.text.isNotEmpty
+                                ? Style.primaryColor
+                                : Style.primaryLightGreyColor,
+                          );
                         },
-                        color: _passwordController.text.isNotEmpty && _phoneController.text.isNotEmpty
-                            ? Style.primaryColor
-                            : Style.primaryLightGreyColor,
-                      );
-                    },
-                  )
-                ],
-              )),
-        ],
+                      )
+                    ],
+                  )),
+            ],
+          ),
+        ),
       ),
     );
   }
