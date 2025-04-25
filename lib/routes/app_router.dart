@@ -6,10 +6,10 @@ import 'package:moi_market/features/router_screen/router_screen.dart';
 class Routes {
   static const auth = 'auth';
   static const main = 'main';
-  static const home = 'home';
-  static const referrals = 'referrals';
-  static const personalAccount = 'personalAccount';
-  static const notification = 'notification';
+  // static const home = 'home';
+  // static const referrals = 'referrals';
+  // static const personalAccount = 'personalAccount';
+  // static const notification = 'notification';
 
   static void initRouter({String initialRoute = Routes.auth}) {
     GetIt.I.registerSingleton<GoRouter>(
@@ -17,7 +17,7 @@ class Routes {
         initialLocation: initialRoute == Routes.main ? '/' : '/$initialRoute',
         routes: [
           GoRoute(path: '/$auth', name: auth, builder: (context, state) => const AuthPage()),
-          GoRoute(path: '/$main', name: main, builder: (context, state) => const RouterScreen()),
+          GoRoute(path: '/', name: main, builder: (context, state) => const RouterScreen()),
           // StatefulShellRoute(
           //   builder: (context, state, navigationShell) {
           //     return DefaultCustomScaffold(navigationShell: navigationShell);

@@ -10,7 +10,7 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl({required this.api});
 
   @override
-  Future<SuccessLogin?> login(String phone, String password) {
+  Future<SuccessLogin> login(String phone, String password) {
     return api.login(phone: phone, password: password);
   }
 }

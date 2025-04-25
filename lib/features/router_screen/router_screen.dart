@@ -131,7 +131,7 @@ class _RouterScreenState extends State<RouterScreen> {
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: isActive
-              ? Style.primaryColor.withValues(alpha: 0.1)
+              ? Style.primaryColor.withValues(alpha: 0.08)
               : const Color(0xFFFAFAFA),
           borderRadius: BorderRadius.circular(10),
         ),
@@ -162,7 +162,7 @@ class _RouterScreenState extends State<RouterScreen> {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 color: isActive
-                    ? Style.primarySecondColor.withValues(alpha: 0.1)
+                    ? Style.primarySecondColor.withValues(alpha: 0.08)
                     : const Color(0xFFFAFAFA),
                 borderRadius: BorderRadius.circular(10),
               ),

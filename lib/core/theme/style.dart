@@ -67,6 +67,18 @@ class Style {
     color: primaryBlackColor,
   );
 
+  static const smallText = TextStyle(
+    fontWeight: FontWeight.w400,
+    fontSize: 12,
+    color: primaryBlackColor,
+  );
+
+  static const bigText = TextStyle(
+    fontWeight: FontWeight.w500,
+    fontSize: 16,
+    color: primaryBlackColor,
+  );
+
   static const iconText = TextStyle(
     fontWeight: FontWeight.w500,
     fontSize: 10,
@@ -124,6 +136,13 @@ class Style {
   BoxShadow(color: Color(0x33186980), spreadRadius: -5, blurRadius: 25, offset: Offset(12, 12))
   ];
 
+  static const itemShadows = <BoxShadow>[
+    BoxShadow(
+      color: Color(0x1A000000),
+      blurRadius: 4,
+      offset: Offset(0, 0),
+    ),
+  ];
   static const inlineTextInputStyle = InputDecoration(
     enabledBorder: UnderlineInputBorder(
       borderSide: BorderSide(

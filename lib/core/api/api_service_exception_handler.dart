@@ -13,11 +13,11 @@ class ApiServiceExceptionHandler {
     try {
       await code();
     } on ResponseIsNullException catch (e) {
-      logger.e('[ApiService] ResponseIsNullException occurred ${e.message}');
+      logger.e('[ApiServiceExceptionHandler] ResponseIsNullException occurred ${e.message}');
       if (!context.mounted) return;
       UiTools.showSnackBar(context: context, message: e.message);
     } on FailureException catch (e) {
-      logger.e('[ApiService] FailureException occurred ${e.message}');
+      logger.e('[ApiServiceExceptionHandler] FailureException occurred ${e.message}');
       if (!context.mounted) return;
       UiTools.showSnackBar(
           context: context,
@@ -26,13 +26,13 @@ class ApiServiceExceptionHandler {
           color: Style.primaryWhiteColor,
           displayDuration: 3000);
     } on StatusCodeException catch (e) {
-      logger.e('[ApiService] StatusCodeException occurred ${e.message}');
+      logger.e('[ApiServiceExceptionHandler] StatusCodeException occurred ${e.message}');
       if (!context.mounted) return;
       UiTools.showSnackBar(context: context, message: e.message);
     } on UnexpectedErrorException catch (e) {
-      logger.e('[ApiService] UnexpectedErrorException occurred ${e.message}');
+      logger.e('[ApiServiceExceptionHandler] UnexpectedErrorException occurred ${e.message}');
     } catch (e) {
-      logger.e('[ApiService] Exception occurred $e');
+      logger.e('[ApiServiceExceptionHandler] Exception occurred $e');
       rethrow;
     }
   }

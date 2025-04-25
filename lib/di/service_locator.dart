@@ -27,10 +27,10 @@ class ServiceLocator {
   Future<void> initModules() async {
     _initLocalStorage();
 
-    final token = await getIt<LocalStorage>().fetchToken();
+    final token = await getIt<LocalStorage>().fetchAccount();
 
-    await _initDio(token);
-    await _initRouter(token);
+    await _initDio(token?.access);
+    await _initRouter(token?.access);
     initAuthModule();
     initHomeModule();
     initNotificationModule();
@@ -48,7 +48,7 @@ class ServiceLocator {
 
   Future<void> _initRouter(String? token) async {
     Routes.initRouter(
-        initialRoute: token == null ? Routes.auth : Routes.home);
+        initialRoute: token == null ? Routes.auth : Routes.main);
   }
 
   void initAuthModule() {

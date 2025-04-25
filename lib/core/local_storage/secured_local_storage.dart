@@ -1,22 +1,26 @@
 
 
+import 'dart:convert';
+
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:moi_market/core/local_storage/local_storage.dart';
+import 'package:moi_market/features/auth/data/models/success_login.dart';
 import 'package:moi_market/main.dart';
 
 class SecuredLocalStorage extends LocalStorage {
   final storage = const FlutterSecureStorage();
 
-  static const tokenKey = 'token';
+  static const accountKey = 'account';
   static const loginKey = 'login';
   static const passwordKey = 'password';
   static const appSettingsKey = 'app_settings';
   static const isMockAccountKey = 'mock_account';
 
   @override
-  Future<String?> fetchToken() async {
+  Future<SuccessLogin?> fetchAccount() async {
     try {
-      return await storage.read(key: tokenKey);
+      var account = await storage.read(key: accountKey);
+      return SuccessLogin.fromJson(jsonDecode(account ?? ''));
     } catch (e) {
       logger.e('[SecuredLocalStorage] $e');
       return null;
@@ -24,18 +28,18 @@ class SecuredLocalStorage extends LocalStorage {
   }
 
   @override
-  Future<void> flushToken() async {
+  Future<void> flushAccount() async {
     try {
-      await storage.delete(key: tokenKey);
+      await storage.delete(key: accountKey);
     } catch (e) {
       logger.e('[SecuredLocalStorage] $e');
     }
   }
 
   @override
-  Future<void> writeToken(String value) async {
+  Future<void> writeAccount(SuccessLogin value) async {
     try {
-      await storage.write(key: tokenKey, value: value);
+      await storage.write(key: accountKey, value: jsonEncode(value.toJson()));
     } catch (e) {
       logger.e('[SecuredLocalStorage] $e');
     }

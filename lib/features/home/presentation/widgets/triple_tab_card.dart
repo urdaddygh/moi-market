@@ -37,6 +37,7 @@ class RentTripleTab extends StatelessWidget {
               SizedBox(
                 height: 43,
                 child: TabBar(
+                  unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w400, fontSize: 12),
                   labelColor: Colors.white,
                   unselectedLabelColor: const Color(0xFFC5C5C5),
                   indicator: BoxDecoration(
@@ -44,7 +45,7 @@ class RentTripleTab extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   indicatorSize: TabBarIndicatorSize.tab,
-                  labelStyle: const TextStyle(fontWeight: FontWeight.w600),
+                  labelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),
                   tabs: [
                     Tab(text: firstTitle),
                     Tab(text: secondTitle),
@@ -79,9 +80,9 @@ class RentTripleTab extends StatelessWidget {
           Expanded(
             child: TabBarView(
               children: [
-                SingleChildScrollView(child: firstTab),
-                SingleChildScrollView(child: secondTab),
-                SingleChildScrollView(child: thirdTab),
+                firstTab,
+                secondTab,
+                thirdTab,
               ],
             ),
           ),

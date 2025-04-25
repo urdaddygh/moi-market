@@ -52,6 +52,9 @@ abstract class BaseApiService {
       return response.data;
     } on DioException catch (e) {
       logger.e('[BaseApiService] DioException: ${e.response?.statusCode} - ${e.type}');
+      if (e.response?.statusCode == 401) {
+        throw StatusCodeException('${e.response?.data['detail']}');
+      }
       throw UnexpectedErrorException('Status - ${e.response?.statusCode}, error - ${e.error}, type - ${e.type}');
     } catch (e) {
       logger.e('[BaseApiService] Exception: $e');
