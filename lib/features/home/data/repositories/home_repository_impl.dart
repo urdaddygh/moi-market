@@ -1,4 +1,5 @@
 import 'package:moi_market/features/home/data/api/home_api.dart';
+import 'package:moi_market/features/home/data/models/groups_common_response.dart';
 import 'package:moi_market/features/home/domain/repositories/home_repository.dart';
 
 class HomeRepositoryImpl implements HomeRepository {
@@ -7,7 +8,7 @@ class HomeRepositoryImpl implements HomeRepository {
   HomeRepositoryImpl({required this.api});
 
   @override
-  Future<String?> getInfo() {
-    return api.getInfo();
+  Future<GroupsCommonResponse> getGroups({required int limit, required int page}) {
+    return api.getGroups(limit:limit, page:page);
   }
 }

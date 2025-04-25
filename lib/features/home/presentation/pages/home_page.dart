@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moi_market/core/theme/style.dart';
 import 'package:moi_market/core/widgets/default_custom_wrapper.dart';
+import 'package:moi_market/features/home/presentation/cubit/home_cubit.dart';
+import 'package:moi_market/features/home/presentation/cubit/home_state.dart';
 import 'package:moi_market/features/home/presentation/widgets/item_card.dart';
 import 'package:moi_market/features/home/presentation/widgets/requisites_wrapper.dart';
 import 'package:moi_market/features/home/presentation/widgets/triple_tab_card.dart';
@@ -15,50 +18,18 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final ScrollController _scrollController = ScrollController();
 
-  List<String> _items = [];
-  bool _isLoadingMore = false;
-  bool _hasMore = true;
-  int _page = 1;
-  final int _limit = 10;
-
   @override
   void initState() {
     super.initState();
-    _loadInitial();
-
+    BlocProvider.of<HomeCubit>(context).loadGroups(context: context);
+    var state = BlocProvider.of<HomeCubit>(context).state;
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >= _scrollController.position.maxScrollExtent - 200) {
-        if (!_isLoadingMore && _hasMore) {
-          _loadMore();
+        if (state.commonResponse?.next != null && !state.isLoadingMore) {
+          BlocProvider.of<HomeCubit>(context).loadGroups(context: context);
         }
       }
     });
-  }
-
-  Future<void> _loadInitial() async {
-    final newItems = await _fetchItems();
-    setState(() {
-      _items = newItems;
-    });
-  }
-
-  Future<void> _loadMore() async {
-    setState(() => _isLoadingMore = true);
-    _page++;
-
-    final newItems = await _fetchItems();
-    setState(() {
-      _isLoadingMore = false;
-      if (newItems.length < _limit) _hasMore = false;
-      _items.addAll(newItems);
-    });
-  }
-
-  Future<List<String>> _fetchItems() async {
-    // Здесь будет твой API-запрос с учетом _page и _limit
-    await Future.delayed(Duration(seconds: 2)); // имитируем задержку
-    if (_page >= 3) return []; // после 3-й страницы считаем что ничего нет
-    return List.generate(_limit, (index) => 'Item ${_page * _limit + index + 1}');
   }
 
   @override
@@ -80,18 +51,33 @@ class _HomePageState extends State<HomePage> {
             const SizedBox(height: Style.bigSpacing),
             Expanded(
               /// 🔧 ОБЯЗАТЕЛЬНО! Даёт ограничение по высоте
-              child: RentTripleTab(
-                firstTitle: 'Все',
-                secondTitle: 'Активные',
-                thirdTitle: 'Неактивные',
-                firstTab: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 3,
-                  padding: EdgeInsets.zero,
-                  itemBuilder: (context, index) => ItemCard(),
-                ),
-                secondTab: Container(color: Style.primarySecondColor),
-                thirdTab: Container(color: Style.primarySecondColor),
+              child: BlocBuilder<HomeCubit, HomeState>(
+                builder: (context, state) {
+                  return RentTripleTab(
+                    firstTitle: 'Все',
+                    secondTitle: 'Активные',
+                    thirdTitle: 'Неактивные',
+                    firstTab: state.groups == null || state.groups!.isEmpty
+                        ? const Center(child: Text('Пусто', style: Style.mainText))
+                        : ListView.builder(
+                      controller: _scrollController,
+                      itemCount: state.groups!.length + (state.isLoadingMore ? 1 : 0),
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (context, index) {
+                        if (index < state.groups!.length) {
+                          return ItemCard();
+                        } else {
+                          return const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16),
+                            child: Center(child: CircularProgressIndicator()),
+                          );
+                        }
+                      },
+                    ),
+                    secondTab: Container(color: Style.primarySecondColor),
+                    thirdTab: Container(color: Style.primarySecondColor),
+                  );
+                },
               ),
             ),
           ],

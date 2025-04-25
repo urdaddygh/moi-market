@@ -13,17 +13,17 @@ String listPaymentToJson(List<Payment> data) => jsonEncode(List<dynamic>.from(da
 @JsonSerializable()
 class Payment {
   Payment(this.id, this.schedule, this.paidAt, this.amount, this.isApproved, this.approvedAt, this.approvedBy);
-  final int id;
-  final Schedule schedule;
+  final int? id;
+  final Schedule? schedule;
   @JsonKey(name: 'paid_at')
-  final String paidAt;
-  final String amount;
+  final String? paidAt;
+  final String? amount;
   @JsonKey(name: 'is_approved')
-  final bool isApproved;
+  final bool? isApproved;
   @JsonKey(name: 'approved_at')
-  final String approvedAt;
+  final String? approvedAt;
   @JsonKey(name: 'approved_by')
-  final int approvedBy;
+  final int? approvedBy;
 
   factory Payment.fromJson(Map<String, dynamic> json) => _$PaymentFromJson(json);
 

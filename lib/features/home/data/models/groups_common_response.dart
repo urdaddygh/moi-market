@@ -8,15 +8,20 @@ part 'groups_common_response.g.dart';
 List<GroupsCommonResponse> listGroupsCommonResponseFromJson(dynamic data) =>
     List<GroupsCommonResponse>.from(data.map((x) => GroupsCommonResponse.fromJson(x)));
 
-String listGroupsCommonResponseToJson(List<GroupsCommonResponse> data) => jsonEncode(List<dynamic>.from(data.map((x) => x.toJson())));
+String listGroupsCommonResponseToJson(List<GroupsCommonResponse> data) =>
+    jsonEncode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 @JsonSerializable()
 class GroupsCommonResponse {
-  GroupsCommonResponse(this.count, this.next, this.previous, this.results);
-  final int count;
-  final String next;
-  final String previous;
-  final List<Group> results;
+  GroupsCommonResponse(this.count, this.next, this.previous, this.results, this.totalPages, this.currentPage);
+  final int? count;
+  final String? next;
+  final String? previous;
+  @JsonKey(name: 'total_pages')
+  final int? totalPages;
+  @JsonKey(name: 'current_page')
+  final int? currentPage;
+  final List<Group>? results;
 
   factory GroupsCommonResponse.fromJson(Map<String, dynamic> json) => _$GroupsCommonResponseFromJson(json);
 

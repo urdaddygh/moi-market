@@ -14,15 +14,15 @@ String listTicketToJson(List<Ticket> data) => jsonEncode(List<dynamic>.from(data
 @JsonSerializable()
 class Ticket {
   Ticket(this.id, this.client, this.createdAt, this.position, this.received, this.receiveDate, this.payments);
-  final int id;
-  final Client client;
+  final int? id;
+  final Client? client;
   @JsonKey(name: 'created_at')
-  final String createdAt;
-  final int position;
-  final bool received;
+  final String? createdAt;
+  final int? position;
+  final bool? received;
   @JsonKey(name: 'receive_date')
-  final String receiveDate;
-  final List<Payment> payments;
+  final String? receiveDate;
+  final List<Payment>? payments;
 
   factory Ticket.fromJson(Map<String, dynamic> json) => _$TicketFromJson(json);
 

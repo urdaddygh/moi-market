@@ -12,12 +12,12 @@ String listUserToJson(List<User> data) => jsonEncode(List<dynamic>.from(data.map
 @JsonSerializable()
 class User {
   User(this.id, this.phone, this.fullName, this.userType);
-  final int id;
-  final String phone;
+  final int? id;
+  final String? phone;
   @JsonKey(name: 'full_name')
-  final String fullName;
+  final String? fullName;
   @JsonKey(name: 'user_type')
-  final String userType;
+  final String? userType;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 

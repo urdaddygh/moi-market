@@ -13,20 +13,20 @@ String listClientToJson(List<Client> data) => jsonEncode(List<dynamic>.from(data
 @JsonSerializable()
 class Client {
   Client(this.id, this.user, this.additionalPhone, this.status, this.passportFront, this.passportBack, this.level, this.address, this.comment, this.createdBy);
-  final int id;
-  final User user;
+  final int? id;
+  final User? user;
   @JsonKey(name: 'additional_phone')
-  final String additionalPhone;
-  final String status;
+  final String? additionalPhone;
+  final String? status;
   @JsonKey(name: 'passport_front')
-  final String passportFront;
+  final String? passportFront;
   @JsonKey(name: 'passport_back')
-  final String passportBack;
-  final int level;
-  final String address;
-  final String comment;
+  final String? passportBack;
+  final int? level;
+  final String? address;
+  final String? comment;
   @JsonKey(name: 'created_by')
-  final int createdBy;
+  final int? createdBy;
 
   factory Client.fromJson(Map<String, dynamic> json) => _$ClientFromJson(json);
 
