@@ -17,7 +17,7 @@ class HomeApi extends BaseApiService {
     );
 
     if(res == null) throw ResponseIsNullException('Response is null');
-
+    // print('RESPONSE BODY: ${res.toString()}');
     return GroupsCommonResponse.fromJson(res);
   }
 }

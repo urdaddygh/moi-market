@@ -15,6 +15,7 @@ class HomeState with _$HomeState {
   const factory HomeState({
     @Default(HomeEventState.initial) HomeEventState eventState,
     @Default(null) List<Group>? groups,
+    @Default(null) Group? group,
     @Default(null) GroupsCommonResponse? commonResponse,
     @Default(false) bool isLoadingMore,
     String? message,

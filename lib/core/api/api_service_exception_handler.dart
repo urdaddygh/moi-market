@@ -33,7 +33,6 @@ class ApiServiceExceptionHandler {
       logger.e('[ApiServiceExceptionHandler] UnexpectedErrorException occurred ${e.message}');
     } catch (e) {
       logger.e('[ApiServiceExceptionHandler] Exception occurred $e');
-      rethrow;
     }
   }
 }

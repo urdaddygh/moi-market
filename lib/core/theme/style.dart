@@ -23,7 +23,7 @@ class Style {
   static const double bottomNavigatorBarHeight = 55.0;
   static double bottomNavigatorItemWidth = 80;
 
-  static double defaultSplashRadius = 24;
+  static double defaultSplashRadius = 10;
 
   static double drawerItemHeight = 50;
 
@@ -36,6 +36,7 @@ class Style {
 
 
   static const Color hintTextColor = Color(0xFFD9D9D9);
+  static const Color dividerGreyColor = Color(0xFFF5F5F5);
 
   static const formButtonText = TextStyle(
     fontWeight: FontWeight.w600,
@@ -143,6 +144,15 @@ class Style {
       offset: Offset(0, 0),
     ),
   ];
+
+  static const dialogShadows = <BoxShadow>[
+    BoxShadow(
+      color: Color(0x0F000000),
+      offset: Offset(0, 4),
+      blurRadius: 10,
+      spreadRadius: 0,
+    ),
+  ];
   static const inlineTextInputStyle = InputDecoration(
     enabledBorder: UnderlineInputBorder(
       borderSide: BorderSide(
@@ -168,9 +178,5 @@ class Style {
   static final defaultDateFormat = DateFormat('dd MMM HH:mm', 'ru');
   static final defaultWithYearDateFormat = DateFormat('dd MMM yyyy', 'ru');
   static final defaultTimeDateFormat = DateFormat('HH:mm');
-  static final greenSpaceDateFormat = DateFormat('dd.MM.yyyy');
-
-
-
-
+  static final greenSpaceDateFormat = DateFormat('dd.MM.yy');
 }

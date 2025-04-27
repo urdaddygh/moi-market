@@ -79,6 +79,7 @@ class RentTripleTab extends StatelessWidget {
           const SizedBox(height: 12),
           Expanded(
             child: TabBarView(
+              physics: const NeverScrollableScrollPhysics(),
               children: [
                 firstTab,
                 secondTab,
