@@ -1,15 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:moi_market/core/theme/style.dart';
-import 'package:moi_market/core/widgets/default_custom_wrapper.dart';
-import 'package:moi_market/core/widgets/default_divider.dart';
-import 'package:moi_market/core/widgets/default_elevated_button.dart';
-import 'package:moi_market/core/widgets/icon_container.dart';
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_cubit.dart';
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_state.dart';
 import 'package:moi_market/features/referrals/presentation/widgets/add_referral_form.dart';
 import 'package:moi_market/features/referrals/presentation/widgets/list_referrals_screen.dart';
-import 'package:moi_market/features/referrals/presentation/widgets/referrals_table.dart';
 import 'package:moi_market/features/referrals/presentation/widgets/success_error_screen.dart';
 
 class ReferralsPage extends StatelessWidget {

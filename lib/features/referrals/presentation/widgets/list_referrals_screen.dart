@@ -43,7 +43,7 @@ class _ListReferralsScreenState extends State<ListReferralsScreen> {
               ],
             ),
             const DefaultDivider(),
-            const SizedBox(height: Style.defaultPaddingVertical),
+            const SizedBox(height: Style.largeSpacing),
             Expanded(
               child: BlocBuilder<ReferralsCubit, ReferralsState>(
                 builder: (context, state) {

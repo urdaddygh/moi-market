@@ -17,7 +17,7 @@ class NotificationApi extends BaseApiService {
     );
 
     if(res == null) throw ResponseIsNullException('Response is null');
-    // print('RESPONSE BODY: ${res.toString()}');
+    
     return CommonNotificationsRespons.fromJson(res);
   }
 }

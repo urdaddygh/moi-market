@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -5,10 +6,12 @@ import 'package:get_it/get_it.dart';
 import 'package:moi_market/core/api/api_service_exception_handler.dart';
 import 'package:moi_market/features/notification/data/models/app_notification.dart';
 import 'package:moi_market/features/notification/domain/repositories/notification_repository.dart';
+import 'package:moi_market/features/notification/presentation/widgets/notification_detailed.dart';
 import 'notification_state.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
-  NotificationCubit({NotificationState? state}) : super(state ?? const NotificationState());
+  NotificationCubit({NotificationState? state})
+      : super(state ?? const NotificationState());
 
   int? extractPageNumber(String? url) {
     if (url == null) return null;
@@ -18,10 +21,10 @@ class NotificationCubit extends Cubit<NotificationState> {
     return page != null ? int.tryParse(page) : null;
   }
 
-
   Future<void> loadNotifications(
       {required BuildContext context, bool isLoadMore = false}) async {
-    if (state.eventState == NotificationEventState.loading || state.isLoadingMore) {
+    if (state.eventState == NotificationEventState.loading ||
+        state.isLoadingMore) {
       return;
     }
     int? nextPage;
@@ -60,11 +63,19 @@ class NotificationCubit extends Cubit<NotificationState> {
     ));
   }
 
-  void setGroup(AppNotification notification) {
+  void setNotification(AppNotification notification, BuildContext context) {
     emit(state.copyWith(notification: notification));
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const NotificationDetailed(),
+      ),
+    );
   }
 
-  void flushGroup() {
+  void flushNotification() {
     emit(state.copyWith(notification: null));
   }
+
+  Future<void> removeNotification() async {}
 }

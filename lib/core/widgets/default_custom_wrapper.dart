@@ -4,6 +4,7 @@ import 'package:moi_market/core/widgets/default_custom_header.dart';
 
 class DefaultCustomWrapper extends StatelessWidget {
   const DefaultCustomWrapper({super.key, this.isLoading = false, required this.body, this.padding, this.onTap, this.headerTitle, this.paddingTop = 0,  this.paddingBot = 0});
+  
   final bool isLoading;
   final Widget body;
   final EdgeInsetsGeometry? padding;
@@ -11,6 +12,7 @@ class DefaultCustomWrapper extends StatelessWidget {
   final String? headerTitle;
   final double paddingTop;
   final double paddingBot;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(

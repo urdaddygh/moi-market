@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:moi_market/core/theme/style.dart';
-import 'package:moi_market/features/home/data/models/ticket.dart';
 import 'package:moi_market/features/referrals/data/models/referral.dart';
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_cubit.dart';
 
@@ -20,15 +19,18 @@ class ReferralsTable extends StatelessWidget {
         if (referrals != null) ...[
         _buildHeader(),
         const SizedBox(height: Style.bigSpacing),
-          ListView.builder(
-            itemCount: referrals!.length,
-            itemBuilder: (context, index) {
-              return _buildRow(
-                name: referrals![index].client?.user?.fullName ?? '—',
-                status: referrals![index].approved ?? false,
-              );
-            },
-          )]
+          Expanded(
+            child: ListView.builder(
+              itemCount: referrals!.length,
+              itemBuilder: (context, index) {
+                return _buildRow(
+                  name: referrals![index].client?.user?.fullName ?? '—',
+                  status: referrals![index].approved ?? false,
+                );
+              },
+            ),
+          ),
+        ]
         else
           Center(child: Column(
             children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moi_market/core/theme/style.dart';
 
 class DefaultCustomHeader extends StatelessWidget {
@@ -19,8 +20,72 @@ class DefaultCustomHeader extends StatelessWidget {
         ),
         Row(
           children: [
-            Container(width: 44, height: 40, color: Style.primaryColor),
-            Container(width: 44, height: 40, color: Style.primarySecondColor)
+            Container(
+              padding: EdgeInsets.zero,
+              width: 48,
+              height: 45,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Style.primaryColor.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(child: SvgPicture.asset('assets/svgs/coins.svg')),
+                  Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: Style.primaryColor,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(4),
+                      ),
+                    ),
+                    child: const Text(
+                      '250',
+                      style: Style.iconText,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              ),
+            ),
+            const SizedBox(width: 6),
+            Container(
+              padding: EdgeInsets.zero,
+              width: 48,
+              height: 45,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                color: Style.primarySecondColor.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                      child: SvgPicture.asset('assets/svgs/translate.svg')),
+                  Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      color: Style.primarySecondColor,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(4),
+                      ),
+                    ),
+                    child: const Text(
+                      'RUS',
+                      style: Style.iconText,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                      textAlign: TextAlign.center,
+                    ),
+                  )
+                ],
+              ),
+            )
           ],
         )
       ],

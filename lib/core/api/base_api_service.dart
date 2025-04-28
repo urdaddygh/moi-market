@@ -5,7 +5,6 @@ import 'package:moi_market/core/exceptions/data_is_empty_exception.dart';
 import 'package:moi_market/core/exceptions/status_code_exception.dart';
 import 'package:moi_market/core/exceptions/unexpected_error_exception.dart';
 import 'package:moi_market/main.dart';
-import 'package:moi_market/models/common_response.dart';
 
 abstract class BaseApiService {
   final Dio client;

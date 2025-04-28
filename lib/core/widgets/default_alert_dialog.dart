@@ -43,8 +43,8 @@ class DefaultAlertDialog extends StatelessWidget {
               child: Stack(
                 children: [
                   Positioned(
-                      top: 25,
-                      right: 10,
+                      top: 15,
+                      right: 5,
                       child: IconButton(
                         icon: const Icon(Icons.clear, color: Style.hintTextColor),
                         onPressed: () => Navigator.pop(context),
