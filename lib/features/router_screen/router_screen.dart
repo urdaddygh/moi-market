@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moi_market/core/theme/style.dart';
+import 'package:moi_market/core/widgets/default_alert_dialog.dart';
+import 'package:moi_market/core/widgets/default_elevated_button.dart';
 import 'package:moi_market/features/home/presentation/pages/home_page.dart';
 import 'package:moi_market/features/notification/presentation/pages/notification_page.dart';
 import 'package:moi_market/features/personal_account/presentation/pages/personal_account_page.dart';
+import 'package:moi_market/features/referrals/presentation/cubit/referrals_cubit.dart';
+import 'package:moi_market/features/referrals/presentation/cubit/referrals_state.dart';
 import 'package:moi_market/features/referrals/presentation/pages/referrals_page.dart';
 
 class RouterScreen extends StatefulWidget {
@@ -38,23 +43,70 @@ class _RouterScreenState extends State<RouterScreen> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
-      child: Scaffold(
-        backgroundColor: Style.primaryWhiteColor,
-        extendBody: true,
-        body: SafeArea(
-          top: false,
-          bottom: false,
-          child: ValueListenableBuilder<int>(
-            valueListenable: _currentIndex,
-            builder: (context, index, _) {
-              return IndexedStack(
-                index: index,
-                children: _screens,
-              );
-            },
+      child: PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) {
+          if (didPop) {
+            return;
+          }
+
+          var state = BlocProvider.of<ReferralsCubit>(context).state;
+          if (state.referralScreen == ReferralScreen.addReferralScreen ||
+              state.referralScreen == ReferralScreen.successScreen ||
+              state.referralScreen == ReferralScreen.errorScreen) {
+            return;
+          }
+
+          showDialog(
+            context: context,
+            builder: (context) => DefaultAlertDialog(
+                title: const Text('Вы уверены?', textAlign: TextAlign.center, maxLines: 1, style: Style.titleText,),
+                content: const Text('Вы хотите закрыть приложение?', textAlign: TextAlign.center,style: Style.bigText,),
+                actions: [
+                  Expanded(
+                    child: DefaultElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                        Navigator.maybePop(context);
+                      },
+                      text: 'Да',
+                      color: Style.primarySecondColor,
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: DefaultElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                      text: 'Нет',
+                      color: Style.primaryWhiteColor,
+                      textColor: Style.primaryColor,
+                      side: const BorderSide(width: 1.5, color: Style.primaryColor),
+                    ),
+                  )
+                ]
+            ),
+          );
+        },
+        child: Scaffold(
+          backgroundColor: Style.primaryWhiteColor,
+          extendBody: true,
+          body: SafeArea(
+            top: false,
+            bottom: false,
+            child: ValueListenableBuilder<int>(
+              valueListenable: _currentIndex,
+              builder: (context, index, _) {
+                return IndexedStack(
+                  index: index,
+                  children: _screens,
+                );
+              },
+            ),
           ),
+          bottomNavigationBar: _buildBottomNavigationBar(),
         ),
-        bottomNavigationBar: _buildBottomNavigationBar(),
       ),
     );
   }
@@ -78,8 +130,7 @@ class _RouterScreenState extends State<RouterScreen> {
               ],
             ),
             child: ClipRRect(
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(20)),
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
               child: BottomNavigationBar(
                 currentIndex: currentIndex,
                 onTap: (index) => _currentIndex.value = index,
@@ -91,15 +142,11 @@ class _RouterScreenState extends State<RouterScreen> {
                 unselectedLabelStyle: const TextStyle(fontSize: 0),
                 items: [
                   _buildNavItem(
-                    svgPath: currentIndex == 0
-                        ? 'assets/svgs/active_home_icon.svg'
-                        : 'assets/svgs/home_icon.svg',
+                    svgPath: currentIndex == 0 ? 'assets/svgs/active_home_icon.svg' : 'assets/svgs/home_icon.svg',
                     isActive: currentIndex == 0,
                   ),
                   _buildNavItem(
-                    svgPath: currentIndex == 1
-                        ? 'assets/svgs/active_referral_icon.svg'
-                        : 'assets/svgs/referral_icon.svg',
+                    svgPath: currentIndex == 1 ? 'assets/svgs/active_referral_icon.svg' : 'assets/svgs/referral_icon.svg',
                     isActive: currentIndex == 1,
                   ),
                   _buildNavItem(
@@ -122,17 +169,14 @@ class _RouterScreenState extends State<RouterScreen> {
     );
   }
 
-  BottomNavigationBarItem _buildNavItem(
-      {IconData? icon, String? svgPath, required bool isActive}) {
+  BottomNavigationBarItem _buildNavItem({IconData? icon, String? svgPath, required bool isActive}) {
     return BottomNavigationBarItem(
       icon: Container(
         width: 48,
         height: 45,
         alignment: Alignment.center,
         decoration: BoxDecoration(
-          color: isActive
-              ? Style.primaryColor.withValues(alpha: 0.08)
-              : const Color(0xFFFAFAFA),
+          color: isActive ? Style.primaryColor.withValues(alpha: 0.08) : const Color(0xFFFAFAFA),
           borderRadius: BorderRadius.circular(10),
         ),
         child: svgPath != null
@@ -148,10 +192,7 @@ class _RouterScreenState extends State<RouterScreen> {
   }
 
   BottomNavigationBarItem _buildNavItemWithBadge(
-      {IconData? icon,
-      String? svgPath,
-      required bool isActive,
-      String? notifications}) {
+      {IconData? icon, String? svgPath, required bool isActive, String? notifications}) {
     return BottomNavigationBarItem(
       icon: Column(
         children: [
@@ -161,31 +202,25 @@ class _RouterScreenState extends State<RouterScreen> {
               height: 45,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: isActive
-                    ? Style.primarySecondColor.withValues(alpha: 0.08)
-                    : const Color(0xFFFAFAFA),
+                color: isActive ? Style.primarySecondColor.withValues(alpha: 0.08) : const Color(0xFFFAFAFA),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Expanded(child: svgPath != null
-                      ? SvgPicture.asset(svgPath)
-                      : Icon(
-                          icon,
-                          size: 24,
-                          color: isActive
-                              ? Style.primarySecondColor
-                              : Style.hintTextColor,
-                        ),
+                  Expanded(
+                    child: svgPath != null
+                        ? SvgPicture.asset(svgPath)
+                        : Icon(
+                            icon,
+                            size: 24,
+                            color: isActive ? Style.primarySecondColor : Style.hintTextColor,
+                          ),
                   ),
-                  
                   Container(
                     width: double.infinity,
                     decoration: BoxDecoration(
-                      color: isActive
-                          ? Style.primarySecondColor
-                          : Style.hintTextColor,
+                      color: isActive ? Style.primarySecondColor : Style.hintTextColor,
                       borderRadius: const BorderRadius.all(
                         Radius.circular(4),
                       ),

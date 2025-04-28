@@ -1,22 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:moi_market/core/theme/style.dart';
 
-class RentTripleTab extends StatelessWidget {
+class TripleTabCard extends StatelessWidget {
   final String firstTitle;
   final String secondTitle;
   final String thirdTitle;
   final Widget firstTab;
   final Widget secondTab;
   final Widget thirdTab;
+  final Color? indicatorColor;
 
-  const RentTripleTab({
+  const TripleTabCard({
     super.key,
     required this.firstTitle,
     required this.secondTitle,
     required this.thirdTitle,
     required this.firstTab,
     required this.secondTab,
-    required this.thirdTab,
+    required this.thirdTab, this.indicatorColor,
   });
 
   @override
@@ -31,7 +32,7 @@ class RentTripleTab extends StatelessWidget {
                 height: 43,
                 decoration: BoxDecoration(
                   border: Border.all(color: Style.hintTextColor),
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(Style.defaultSplashRadius),
                 ),
               ),
               SizedBox(
@@ -41,8 +42,8 @@ class RentTripleTab extends StatelessWidget {
                   labelColor: Colors.white,
                   unselectedLabelColor: const Color(0xFFC5C5C5),
                   indicator: BoxDecoration(
-                    color: Style.primaryColor,
-                    borderRadius: BorderRadius.circular(10),
+                    color: indicatorColor,
+                    borderRadius: BorderRadius.circular(Style.defaultSplashRadius),
                   ),
                   indicatorSize: TabBarIndicatorSize.tab,
                   labelStyle: const TextStyle(fontWeight: FontWeight.w500, fontSize: 12),

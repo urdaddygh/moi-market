@@ -4,7 +4,7 @@ import 'package:moi_market/core/theme/style.dart';
 import 'package:moi_market/features/home/presentation/cubit/home_cubit.dart';
 import 'package:moi_market/features/home/presentation/cubit/home_state.dart';
 import 'package:moi_market/features/home/presentation/widgets/item_card.dart';
-import 'package:moi_market/features/home/presentation/widgets/triple_tab_card.dart';
+import 'package:moi_market/core/widgets/triple_tab_card.dart';
 
 class AllCardScreen extends StatefulWidget {
   const AllCardScreen({super.key});
@@ -46,7 +46,8 @@ class _AllCardScreenState extends State<AllCardScreen> {
         Expanded(
           child: BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {
-              return RentTripleTab(
+              return TripleTabCard(
+                indicatorColor: Style.primaryColor,
                 firstTitle: 'Все',
                 secondTitle: 'Активные',
                 thirdTitle: 'Неактивные',

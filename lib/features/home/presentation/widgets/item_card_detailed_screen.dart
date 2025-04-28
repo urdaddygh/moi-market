@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moi_market/core/theme/style.dart';
+import 'package:moi_market/core/widgets/default_divider.dart';
 import 'package:moi_market/core/widgets/default_elevated_button.dart';
 import 'package:moi_market/core/widgets/icon_container.dart';
 import 'package:moi_market/features/home/presentation/cubit/home_cubit.dart';
@@ -49,7 +50,7 @@ class ItemCardDetailedScreen extends StatelessWidget {
                         ))
                       ],
                     ),
-                    const Divider(thickness: 1, color: Style.dividerGreyColor),
+                    const DefaultDivider(),
                     const SizedBox(height: Style.largeSpacing),
                     const PaymentScheduleTable(),
                     const SizedBox(height: 40),
@@ -67,7 +68,7 @@ class ItemCardDetailedScreen extends StatelessWidget {
                         )
                       ],
                     ),
-                    const Divider(thickness: 1, color: Style.dividerGreyColor),
+                    const DefaultDivider(),
                     const SizedBox(height: Style.largeSpacing),
                     ParticipantsTable(tickets: state.group?.tickets)
                   ],

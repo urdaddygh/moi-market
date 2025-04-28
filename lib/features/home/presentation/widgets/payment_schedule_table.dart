@@ -26,24 +26,14 @@ class PaymentScheduleTable extends StatelessWidget {
           status: 'Не оплачено',
           // check: 'sa',
         ),
-        _buildRow(
-          paymentDate: '15 февраля 2025 г.',
-          context: context,
-          status: 'Оплачено',
-          check: '2'
-        ),
+        _buildRow(paymentDate: '15 февраля 2025 г.', context: context, status: 'Оплачено', check: '2'),
         _buildRow(
           context: context,
           paymentDate: '15 февраля 2025 г.',
           status: 'Не оплачено',
           // check: '2'
         ),
-        _buildRow(
-          context: context,
-          paymentDate: '15 февраля 2025 г.',
-          status: 'Оплачено',
-          check: '2'
-        ),
+        _buildRow(context: context, paymentDate: '15 февраля 2025 г.', status: 'Оплачено', check: '2'),
       ],
     );
   }
@@ -83,12 +73,11 @@ class PaymentScheduleTable extends StatelessWidget {
     );
   }
 
-  Widget _buildRow(
-      {required String paymentDate, required String status, String? check, required BuildContext context}) {
+  Widget _buildRow({required String paymentDate, required String status, String? check, required BuildContext context}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
@@ -117,26 +106,28 @@ class PaymentScheduleTable extends StatelessWidget {
                   ? Align(
                       alignment: Alignment.centerLeft,
                       child: GestureDetector(
-                          onTap: () {},
-                          child: SvgPicture.asset('assets/svgs/eye.svg')))
+                        onTap: () => showDialog(context: context, builder: (context) => const ShowPhotoDialog()),
+                        child: SvgPicture.asset('assets/svgs/eye.svg'),
+                      ),
+                    )
                   : SizedBox(
                       height: 26,
                       child: ElevatedButton(
                         onPressed: () {
-                          showDialog(context: context, builder: (context) => ShowPhotoDialog(),barrierColor:Colors.transparent );
+                          showDialog(
+                              context: context, builder: (context) => const ShowPhotoDialog(), barrierColor: Colors.transparent);
                         },
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Style.primaryColor,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8))),
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
                         child: const Center(
-                            child: Text('Добавить чек', style: Style.iconText),),
+                          child: Text('Добавить чек', style: Style.iconText),
+                        ),
                       ),
                     ),
             ),
           ],
         ),
-        
         const Divider(
           thickness: 1,
           color: Style.dividerGreyColor,

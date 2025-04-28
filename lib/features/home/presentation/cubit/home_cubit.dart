@@ -1,9 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:moi_market/core/api/api_service_exception_handler.dart';
+import 'package:moi_market/core/utils/ui_tools.dart';
 import 'package:moi_market/features/home/data/models/group.dart';
 import 'package:moi_market/features/home/domain/repositories/home_repository.dart';
+import 'package:moi_market/main.dart';
 import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
@@ -15,6 +18,23 @@ class HomeCubit extends Cubit<HomeState> {
     final uri = Uri.parse(url);
     final page = uri.queryParameters['page'];
     return page != null ? int.tryParse(page) : null;
+  }
+
+  Future<void> choosePhoto(BuildContext context, ImageSource source) async {
+    ImagePicker picker = ImagePicker();
+    try {
+        final attachment = await picker.pickImage(
+          source: source,
+          preferredCameraDevice: CameraDevice.rear,
+        );
+        if (attachment == null) return;
+        emit(state.copyWith(attachment: attachment));
+
+    } catch (e) {
+      if (!context.mounted) return;
+      UiTools.showSnackBar(context: context, message: 'Произошла непредвиденная ошибка');
+      logger.e('Error choosing file: $e');
+    }
   }
 
   Future<void> loadGroups(
@@ -64,5 +84,8 @@ class HomeCubit extends Cubit<HomeState> {
   
   void flushGroup() {
     emit(state.copyWith(group: null));
+  }
+  void flushAttachment() {
+    emit(state.copyWith(attachment: null));
   }
 }

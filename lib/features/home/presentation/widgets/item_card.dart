@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moi_market/core/theme/style.dart';
+import 'package:moi_market/core/widgets/default_divider.dart';
 import 'package:moi_market/features/home/data/models/group.dart';
 
 class ItemCard extends StatelessWidget {
@@ -75,7 +76,7 @@ class ItemCard extends StatelessWidget {
                   ))
                 ],
               ),
-              const Divider(color: Style.hintTextColor, thickness: 1),
+              const DefaultDivider(),
               const SizedBox(height: Style.bigSpacing),
               Row(
                 spacing: Style.largeSpacing + 6,

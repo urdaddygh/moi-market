@@ -87,7 +87,6 @@ class _AuthFormScreenState extends State<AuthFormScreen> {
                                   phone: _phoneController.text,
                                   context: context
                                 );
-
                               }
                             },
                             color: _passwordController.text.isNotEmpty && _phoneController.text.isNotEmpty
