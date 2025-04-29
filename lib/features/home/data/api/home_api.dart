@@ -8,13 +8,25 @@ import 'package:moi_market/features/home/data/models/groups_common_response.dart
 class HomeApi extends BaseApiService {
   HomeApi(super.client);
 
-  Future<GroupsCommonResponse> getGroups({required int limit, required int page}) async {
+  Future<GroupsCommonResponse> getGroups({required int limit, required int page, String? status}) async {
+
+    Map<String, dynamic> queryParameters;
+    if(status != null){
+      queryParameters = {
+        "limit": limit,
+        "page": page,
+        "status": status,
+      };
+    } else {
+      queryParameters = {
+        "limit": limit,
+        "page": page,
+      };
+    }
+
     var res = await baseRequest(
         endpoint: 'groups/',
-        queryParameters: {
-          "limit": limit,
-          "page": page,
-        },
+        queryParameters: queryParameters,
         type: RequestType.get);
 
     if (res == null) throw ResponseIsNullException('Response is null');

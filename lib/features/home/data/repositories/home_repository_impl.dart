@@ -10,8 +10,8 @@ class HomeRepositoryImpl implements HomeRepository {
   HomeRepositoryImpl({required this.api});
 
   @override
-  Future<GroupsCommonResponse> getGroups({required int limit, required int page}) {
-    return api.getGroups(limit:limit, page:page);
+  Future<GroupsCommonResponse> getGroups({required int limit, required int page, String? status}) {
+    return api.getGroups(limit:limit, page:page, status: status);
   }
 
   @override

@@ -40,11 +40,10 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> loadGroups(
-      {required BuildContext context, bool isLoadMore = false}) async {
+      {required BuildContext context, bool isLoadMore = false, bool? status}) async {
     if (state.eventState == HomeEventState.loading || state.isLoadingMore) {
       return;
     }
-    int? nextPage;
     if (isLoadMore) {
       emit(state.copyWith(isLoadingMore: true));
     } else {
@@ -54,21 +53,69 @@ class HomeCubit extends Cubit<HomeState> {
     await ApiServiceExceptionHandler().apiServiceExceptionHandler(
       context: context,
       code: () async {
-        final newGroups = await GetIt.I
-            .get<HomeRepository>()
-            .getGroups(limit: 10, page: nextPage ?? 1);
-        emit(state.copyWith(commonResponse: newGroups));
+        if (status == null) {
+          int? nextPage;
+          final newGroups = await GetIt.I.get<HomeRepository>().getGroups(
+                limit: 10,
+                page: nextPage ?? 1,
+              );
+          emit(state.copyWith(commonResponse: newGroups));
 
-        nextPage = extractPageNumber(newGroups.next);
-        if (newGroups.results != null) {
-          var reversed = newGroups.results!.reversed.toList();
-          if (isLoadMore && state.groups != null) {
-            final mergedResults = [...state.groups!, ...reversed];
-            emit(state.copyWith(
-              groups: mergedResults,
-            ));
-          } else {
-            emit(state.copyWith(groups: reversed));
+          nextPage = extractPageNumber(newGroups.next);
+          if (newGroups.results != null) {
+            var reversed = newGroups.results!.reversed.toList();
+            if (isLoadMore && state.groups != null) {
+              final mergedResults = [...state.groups!, ...reversed];
+              emit(state.copyWith(
+                groups: mergedResults,
+              ));
+            } else {
+              emit(state.copyWith(groups: reversed));
+            }
+          }
+        }
+
+        if (status!) {
+          int? nextPage;
+          final newGroups = await GetIt.I.get<HomeRepository>().getGroups(
+                limit: 10,
+                page: nextPage ?? 1,
+                status: 'active'
+              );
+          emit(state.copyWith(activeStatusCommonResponse: newGroups));
+
+          nextPage = extractPageNumber(newGroups.next);
+          if (newGroups.results != null) {
+            var reversed = newGroups.results!.reversed.toList();
+            if (isLoadMore && state.activeGroups != null) {
+              final mergedResults = [...state.activeGroups!, ...reversed];
+              emit(state.copyWith(
+                activeGroups: mergedResults,
+              ));
+            } else {
+              emit(state.copyWith(activeGroups: reversed));
+            }
+          }
+        } else {
+           int? nextPage;
+          final newGroups = await GetIt.I.get<HomeRepository>().getGroups(
+                limit: 10,
+                page: nextPage ?? 1,
+                status: 'pending'
+              );
+          emit(state.copyWith(unActiveStatusCommonResponse: newGroups));
+
+          nextPage = extractPageNumber(newGroups.next);
+          if (newGroups.results != null) {
+            var reversed = newGroups.results!.reversed.toList();
+            if (isLoadMore && state.unActiveGroups != null) {
+              final mergedResults = [...state.unActiveGroups!, ...reversed];
+              emit(state.copyWith(
+                unActiveGroups: mergedResults,
+              ));
+            } else {
+              emit(state.copyWith(unActiveGroups: reversed));
+            }
           }
         }
       },

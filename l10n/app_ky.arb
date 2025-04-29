@@ -49,12 +49,13 @@
   "no": "Жок",
 
   "messageUnexpectedErrorOccurred": "Күтүлбөгөн ката болду",
-  "messageUnexpectedErrorOccurred": "Сүрөт кошулган жок",
+  "messagePhotoEmpty": "Сүрөт кошулган жок",
 
   "empty": "Бош",
   "done": "Даяр",
   "delete": "Өчүрүү",
   "cancel": "Жокко чыгаруу",
+  "status": "Статусу",
   "update": "Жаңыртуу",
   "unknown": "Белгисиз"
 }

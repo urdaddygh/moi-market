@@ -85,13 +85,19 @@ class ItemCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${AppLocalizations.of(context)!.payStatus}:',
+                        '${AppLocalizations.of(context)!.status}:',
                         style: Style.smallText.copyWith(
                           color: Style.primaryBlackColor
                               .withValues(alpha: 0.7),
                         ),
                       ),
-                      const Text('Не оплачено', style: Style.mainText),
+                      Text(
+                          group?.status == null
+                              ? '—'
+                              : group?.status == 'active'
+                                  ? AppLocalizations.of(context)!.active
+                                  : AppLocalizations.of(context)!.unActive,
+                          style: Style.mainText),
                     ],
                   ),
                   Column(
