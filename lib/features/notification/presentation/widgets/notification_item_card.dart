@@ -6,7 +6,7 @@ import 'package:moi_market/core/widgets/default_alert_dialog.dart';
 import 'package:moi_market/core/widgets/default_elevated_button.dart';
 import 'package:moi_market/features/notification/data/models/app_notification.dart';
 import 'package:moi_market/features/notification/presentation/cubit/notification_cubit.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class NotificationItemCard extends StatelessWidget {
   const NotificationItemCard({super.key, this.onTap, this.notification});
 
@@ -85,14 +85,14 @@ class NotificationItemCard extends StatelessWidget {
                         barrierColor: Colors.grey.withValues(alpha: 0.2),
                         context: context,
                         builder: (context) => DefaultAlertDialog(
-                            title: const Text(
-                              'Удалить уведомление?',
+                            title: Text(
+                              AppLocalizations.of(context)!.messageDeleteNotification,
                               textAlign: TextAlign.center,
                               maxLines: 1,
                               style: Style.titleText,
                             ),
-                            content: const Text(
-                              'Это действие необратимо.',
+                            content: Text(
+                              AppLocalizations.of(context)!.thisActionIsIrreversible,
                               textAlign: TextAlign.center,
                               style: Style.bigText,
                             ),
@@ -103,7 +103,7 @@ class NotificationItemCard extends StatelessWidget {
                                     BlocProvider.of<NotificationCubit>(context)
                                         .removeNotification();
                                   },
-                                  text: 'Удалить',
+                                  text: AppLocalizations.of(context)!.delete,
                                   color: Style.primarySecondColor,
                                 ),
                               ),
@@ -113,7 +113,7 @@ class NotificationItemCard extends StatelessWidget {
                                   onPressed: () {
                                     Navigator.of(context).pop();
                                   },
-                                  text: 'Отменить',
+                                  text: AppLocalizations.of(context)!.cancel,
                                   color: Style.primaryWhiteColor,
                                   textColor: Style.primaryColor,
                                   side: const BorderSide(

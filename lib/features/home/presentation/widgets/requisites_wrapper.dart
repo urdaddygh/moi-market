@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:moi_market/core/theme/style.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class RequisitesWrapper extends StatelessWidget {
   const RequisitesWrapper({super.key, required this.phone});
 
@@ -17,7 +17,7 @@ class RequisitesWrapper extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Реквизиты для оплаты группы:', style: Style.mainText.copyWith(fontSize: 12, color: Style.primarySecondColor)),
+            Text('${AppLocalizations.of(context)!.paymentDetailsForTheGroup}:', style: Style.mainText.copyWith(fontSize: 12, color: Style.primarySecondColor)),
             const SizedBox(height: Style.smallSpacing),
             Text(phone,
                 style: Style.mainText.copyWith(fontSize: 16, color: Style.primarySecondColor, fontWeight: FontWeight.w500))

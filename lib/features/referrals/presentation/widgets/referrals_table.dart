@@ -4,7 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:moi_market/core/theme/style.dart';
 import 'package:moi_market/features/referrals/data/models/referral.dart';
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_cubit.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ReferralsTable extends StatelessWidget {
   const ReferralsTable({super.key, required this.referrals});
 
@@ -17,7 +17,7 @@ class ReferralsTable extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         if (referrals != null) ...[
-        _buildHeader(),
+        _buildHeader(context),
         const SizedBox(height: Style.bigSpacing),
           Expanded(
             child: ListView.builder(
@@ -34,13 +34,13 @@ class ReferralsTable extends StatelessWidget {
         else
           Center(child: Column(
             children: [
-              const Text('Пусто', style: Style.mainText,),
+              Text(AppLocalizations.of(context)!.empty, style: Style.mainText,),
               TextButton(
                 onPressed: () =>
                     BlocProvider.of<ReferralsCubit>(context)
                         .loadReferrals(context: context),
                 child: Text(
-                  'Обновить',
+                  AppLocalizations.of(context)!.update,
                   style: Style.buttonText
                       .copyWith(color: Style.primaryColor),
                 ),
@@ -51,13 +51,13 @@ class ReferralsTable extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Text(
-            'Список участников:',
+            '${AppLocalizations.of(context)!.listOfParticipants}:',
             style: Style.smallText.copyWith(
               color: Style.primaryBlackColor.withValues(alpha: 0.7),
             ),
@@ -65,7 +65,7 @@ class ReferralsTable extends StatelessWidget {
         ),
         Expanded(
           child: Text(
-            'Получено',
+            AppLocalizations.of(context)!.received,
             style: Style.smallText.copyWith(
               color: Style.primaryBlackColor.withValues(alpha: 0.7),
             ),

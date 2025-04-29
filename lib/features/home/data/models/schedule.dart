@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:moi_market/features/home/data/models/payment_info.dart';
 
 part 'schedule.g.dart';
 
@@ -11,13 +12,14 @@ String listScheduleToJson(List<Schedule> data) => jsonEncode(List<dynamic>.from(
 
 @JsonSerializable()
 class Schedule {
-  Schedule(this.id, this.group, this.step, this.dueDate);
+  Schedule(this.id, this.group, this.step, this.dueDate, this.paymentInfo);
   final int? id;
   final int? group;
   final int? step;
   @JsonKey(name: 'due_date')
-  final String? dueDate;
-  
+  final DateTime? dueDate;
+  @JsonKey(name: 'payment_info')
+  final PaymentInfo? paymentInfo;
 
   factory Schedule.fromJson(Map<String, dynamic> json) => _$ScheduleFromJson(json);
 

@@ -5,7 +5,7 @@ import 'package:moi_market/core/widgets/triple_tab_card.dart';
 import 'package:moi_market/features/notification/presentation/cubit/notification_cubit.dart';
 import 'package:moi_market/features/notification/presentation/cubit/notification_state.dart';
 import 'package:moi_market/features/notification/presentation/widgets/notification_item_card.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class NotificationListScreen extends StatefulWidget {
   const NotificationListScreen({super.key});
 
@@ -49,9 +49,9 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
             builder: (context, state) {
               return TripleTabCard(
                 indicatorColor: Style.primarySecondColor,
-                firstTitle: 'Все',
-                secondTitle: 'Прочитанные',
-                thirdTitle: 'Непрочитанные',
+                firstTitle: AppLocalizations.of(context)!.all,
+                secondTitle: AppLocalizations.of(context)!.read,
+                thirdTitle: AppLocalizations.of(context)!.unread,
                 firstTab: state.eventState == NotificationEventState.loading
                     ? const Center(child: CircularProgressIndicator())
                     : state.notifications == null ||
@@ -60,13 +60,13 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                             child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text('Пусто', style: Style.mainText),
+                              Text(AppLocalizations.of(context)!.empty, style: Style.mainText),
                               TextButton(
                                 onPressed: () =>
                                     BlocProvider.of<NotificationCubit>(context)
                                         .loadNotifications(context: context),
                                 child: Text(
-                                  'Обновить',
+                                  AppLocalizations.of(context)!.update,
                                   style: Style.buttonText
                                       .copyWith(color: Style.primaryColor),
                                 ),

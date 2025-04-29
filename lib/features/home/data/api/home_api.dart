@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:moi_market/core/api/base_api_service.dart';
 import 'package:moi_market/core/constants/request_type.dart';
 import 'package:moi_market/core/exceptions/response_is_null_exception.dart';
@@ -13,11 +15,21 @@ class HomeApi extends BaseApiService {
           "limit": limit,
           "page": page,
         },
-        type: RequestType.get
-    );
+        type: RequestType.get);
 
-    if(res == null) throw ResponseIsNullException('Response is null');
+    if (res == null) throw ResponseIsNullException('Response is null');
     // print('RESPONSE BODY: ${res.toString()}');
     return GroupsCommonResponse.fromJson(res);
+  }
+
+  Future<String?> addReceipt({required File cheque, required int schedule, required int ticket}) async {
+    var res = await uploadMediaResponse(extraFields: {
+      "schedule": schedule,
+      "ticket": ticket,
+    }, endpoint: 'add-payment/', photo: cheque);
+
+    if (res == null) throw ResponseIsNullException('Response is null');
+
+    return res;
   }
 }

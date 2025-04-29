@@ -1,51 +1,34 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moi_market/core/theme/style.dart';
+import 'package:moi_market/features/home/data/models/schedule.dart';
 import 'package:moi_market/features/home/presentation/widgets/show_photo_dialog.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class PaymentScheduleTable extends StatelessWidget {
-  const PaymentScheduleTable({super.key});
-
+  const PaymentScheduleTable({super.key, required this.schedules});
+  final List<Schedule>? schedules;
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildHeader(),
+        _buildHeader(context),
         const SizedBox(height: Style.bigSpacing),
-        _buildRow(
-          context: context,
-          paymentDate: '15 февраля 2025 г.',
-          status: 'Оплачено',
-          check: 'sa',
-        ),
-        _buildRow(
-          paymentDate: '15 февраля 2025 г.',
-          context: context,
-          status: 'Не оплачено',
-          // check: 'sa',
-        ),
-        _buildRow(paymentDate: '15 февраля 2025 г.', context: context, status: 'Оплачено', check: '2'),
-        _buildRow(
-          context: context,
-          paymentDate: '15 февраля 2025 г.',
-          status: 'Не оплачено',
-          // check: '2'
-        ),
-        _buildRow(context: context, paymentDate: '15 февраля 2025 г.', status: 'Оплачено', check: '2'),
+        if(schedules != null)
+        ...schedules!.map((e) => _buildRow(paymentDate: e.dueDate, status: e.paymentInfo?.isApproved ?? false, check: e.paymentInfo?.cheque, context: context),)
       ],
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           flex: 3,
           child: Text(
-            'График оплаты:',
+            '${AppLocalizations.of(context)!.paymentSchedule}:',
             style: Style.smallText.copyWith(
               color: Style.primaryBlackColor.withValues(alpha: 0.7),
             ),
@@ -54,7 +37,7 @@ class PaymentScheduleTable extends StatelessWidget {
         Expanded(
           flex: 2,
           child: Text(
-            'Статус оплаты:',
+            '${AppLocalizations.of(context)!.payStatus}:',
             style: Style.smallText.copyWith(
               color: Style.primaryBlackColor.withValues(alpha: 0.7),
             ),
@@ -63,7 +46,7 @@ class PaymentScheduleTable extends StatelessWidget {
         Expanded(
           flex: 2,
           child: Text(
-            'Чек об оплате:',
+            '${AppLocalizations.of(context)!.paymentReceipt}:',
             style: Style.smallText.copyWith(
               color: Style.primaryBlackColor.withValues(alpha: 0.7),
             ),
@@ -73,7 +56,7 @@ class PaymentScheduleTable extends StatelessWidget {
     );
   }
 
-  Widget _buildRow({required String paymentDate, required String status, String? check, required BuildContext context}) {
+  Widget _buildRow({required DateTime? paymentDate, required bool status, String? check, required BuildContext context}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +70,8 @@ class PaymentScheduleTable extends StatelessWidget {
             Expanded(
                 flex: 3,
                 child: Text(
-                  paymentDate,
+                    paymentDate!=null?
+                 Style.defaultDateFormat.format(paymentDate) : '-',
                   style: Style.mainText,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -95,7 +79,7 @@ class PaymentScheduleTable extends StatelessWidget {
             Expanded(
                 flex: 2,
                 child: Text(
-                  status,
+                  status ? AppLocalizations.of(context)!.paid : AppLocalizations.of(context)!.notPaid,
                   style: Style.mainText,
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -120,8 +104,8 @@ class PaymentScheduleTable extends StatelessWidget {
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Style.primaryColor,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                        child: const Center(
-                          child: Text('Добавить чек', style: Style.iconText),
+                        child: Center(
+                          child: Text(AppLocalizations.of(context)!.addReceipt, style: Style.iconText),
                         ),
                       ),
                     ),

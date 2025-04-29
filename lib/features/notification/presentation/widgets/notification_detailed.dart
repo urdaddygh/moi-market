@@ -6,7 +6,7 @@ import 'package:moi_market/core/widgets/default_custom_wrapper.dart';
 import 'package:moi_market/core/widgets/default_elevated_button.dart';
 import 'package:moi_market/features/notification/presentation/cubit/notification_cubit.dart';
 import 'package:moi_market/features/notification/presentation/cubit/notification_state.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class NotificationDetailed extends StatelessWidget {
   const NotificationDetailed({super.key});
 
@@ -18,8 +18,9 @@ class NotificationDetailed extends StatelessWidget {
           backgroundColor: Style.primaryWhiteColor,
           body: DefaultCustomWrapper(
             paddingBot: Style.defaultPaddingVertical,
-            headerTitle: 'Уведомления',
+            headerTitle: AppLocalizations.of(context)!.notifications,
             body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: Style.defaultPaddingVertical),
                 Row(
@@ -62,7 +63,7 @@ class NotificationDetailed extends StatelessWidget {
                 ),
                 const Spacer(),
                 DefaultElevatedButton(
-                  text: 'Назад',
+                  text: AppLocalizations.of(context)!.back,
                   onPressed: () => Navigator.pop(context),
                   textColor: Style.primaryColor,
                   color: Style.primaryWhiteColor,

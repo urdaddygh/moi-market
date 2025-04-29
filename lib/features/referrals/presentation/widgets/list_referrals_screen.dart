@@ -8,7 +8,7 @@ import 'package:moi_market/core/widgets/icon_container.dart';
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_cubit.dart';
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_state.dart';
 import 'package:moi_market/features/referrals/presentation/widgets/referrals_table.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ListReferralsScreen extends StatefulWidget {
   const ListReferralsScreen({super.key});
 
@@ -25,19 +25,19 @@ class _ListReferralsScreenState extends State<ListReferralsScreen> {
   @override
   Widget build(BuildContext context) {
     return DefaultCustomWrapper(
-      headerTitle: 'Рефералы',
+      headerTitle: AppLocalizations.of(context)!.referrals,
       body: Column(
         mainAxisSize: MainAxisSize.max,
         children: [
           const SizedBox(height: Style.defaultPaddingVertical),
-            const Row(
+          Row(
               children: [
-                IconContainer(
+                const IconContainer(
                   svgPath: 'assets/svgs/people.svg',
                 ),
-                SizedBox(width: Style.defaultSpacing + 2),
+                const SizedBox(width: Style.defaultSpacing + 2),
                 Text(
-                  'Список рефералов:',
+                  '${AppLocalizations.of(context)!.listOfReferrals}:',
                   style: Style.bigText,
                 )
               ],
@@ -56,7 +56,7 @@ class _ListReferralsScreenState extends State<ListReferralsScreen> {
             ),
             const Spacer(),
             DefaultElevatedButton(
-              text: 'Добавить реферала',
+              text: AppLocalizations.of(context)!.addReferral,
               onPressed: () => BlocProvider.of<ReferralsCubit>(context).changeScreen(ReferralScreen.addReferralScreen),
             ),
           const SizedBox(height: Style.defaultPaddingVertical),

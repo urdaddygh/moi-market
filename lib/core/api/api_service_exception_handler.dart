@@ -7,7 +7,7 @@ import 'package:moi_market/core/exceptions/unexpected_error_exception.dart';
 import 'package:moi_market/core/theme/style.dart';
 import 'package:moi_market/core/utils/ui_tools.dart';
 import 'package:moi_market/main.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ApiServiceExceptionHandler {
   Future<void> apiServiceExceptionHandler({required BuildContext context, required Function code}) async {
     try {
@@ -31,7 +31,7 @@ class ApiServiceExceptionHandler {
       UiTools.showSnackBar(context: context, message: e.message);
     } on UnexpectedErrorException catch (e) {
       if (!context.mounted) return;
-      UiTools.showSnackBar(context: context, message: 'Произошла непредвиденная ошибка');
+      UiTools.showSnackBar(context: context, message: AppLocalizations.of(context)!.messageUnexpectedErrorOccurred);
       logger.e('[ApiServiceExceptionHandler] UnexpectedErrorException occurred ${e.message}');
     } catch (e) {
       logger.e('[ApiServiceExceptionHandler] Exception occurred $e');

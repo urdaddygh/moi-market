@@ -9,7 +9,7 @@ import 'package:moi_market/features/home/presentation/cubit/home_state.dart';
 import 'package:moi_market/features/home/presentation/widgets/participants_table.dart';
 import 'package:moi_market/features/home/presentation/widgets/payment_schedule_table.dart';
 import 'package:moi_market/features/home/presentation/widgets/requisites_wrapper.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ItemCardDetailedScreen extends StatelessWidget {
   const ItemCardDetailedScreen({super.key});
   @override
@@ -20,7 +20,7 @@ class ItemCardDetailedScreen extends StatelessWidget {
           children: [
             const SizedBox(height: Style.bigSpacing),
             RequisitesWrapper(
-              phone: state.group?.paymentDetails ?? 'Неизвестно',
+              phone: state.group?.paymentDetails ?? AppLocalizations.of(context)!.unknown,
             ),
             const SizedBox(height: Style.defaultPaddingVertical),
             Expanded(
@@ -35,12 +35,12 @@ class ItemCardDetailedScreen extends StatelessWidget {
                             child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Группа №${state.group?.id ?? '—'}',
+                            Text('${AppLocalizations.of(context)!.group} №${state.group?.id ?? '—'}',
                                 style: Style.bigText),
                             Row(
                               children: [
                                 Text(
-                                    'Дата создания: ${state.group?.createdAt == null ? '—' : Style.greenSpaceDateFormat.format(state.group!.createdAt!)}'),
+                                    '${AppLocalizations.of(context)!.createDate}: ${state.group?.createdAt == null ? '—' : Style.greenSpaceDateFormat.format(state.group!.createdAt!)}'),
                                 const SizedBox(
                                   width: Style.defaultSpacing,
                                 ),
@@ -52,18 +52,18 @@ class ItemCardDetailedScreen extends StatelessWidget {
                     ),
                     const DefaultDivider(),
                     const SizedBox(height: Style.largeSpacing),
-                    const PaymentScheduleTable(),
+                     PaymentScheduleTable(schedules: state.group!.paymentSchedule),
                     const SizedBox(height: 40),
-                    const Row(
+                    Row(
                       children: [
-                        IconContainer(
+                        const IconContainer(
                           svgPath: 'assets/svgs/people.svg',
                           backroundColor: Style.dividerGreyColor,
                           color: Style.primaryBlackColor,
                         ),
-                        SizedBox(width: Style.defaultSpacing + 2),
+                        const SizedBox(width: Style.defaultSpacing + 2),
                         Text(
-                          'Список участников:',
+                          '${AppLocalizations.of(context)!.listOfParticipants}:',
                           style: Style.bigText,
                         )
                       ],
@@ -76,7 +76,7 @@ class ItemCardDetailedScreen extends StatelessWidget {
               ),
             ),
             DefaultElevatedButton(
-              text: 'Назад',
+              text: AppLocalizations.of(context)!.back,
               onPressed: () => BlocProvider.of<HomeCubit>(context).flushGroup(),
               color: Style.primaryWhiteColor,
               textColor: Style.primaryColor,

@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -77,6 +79,35 @@ class HomeCubit extends Cubit<HomeState> {
       isLoadingMore: false,
     ));
   }
+
+  Future<void> addReceipt(
+      {required BuildContext context, required int ticket, required int schedule}) async {
+    if (state.eventState == HomeEventState.loading) {
+      return;
+    }
+    emit(state.copyWith(eventState: HomeEventState.loading));
+
+    await ApiServiceExceptionHandler().apiServiceExceptionHandler(
+      context: context,
+      code: () async {
+        if (state.attachment != null) {
+          UiTools.showSnackBar(context: context, message: AppLocalizations.of(context)!.messagePhotoEmpty);
+        }
+        final data = await GetIt.I
+            .get<HomeRepository>()
+            .addReceipt(ticket: ticket, schedule: schedule, cheque: File(state.attachment!.path));
+
+        if (data != null) {
+          UiTools.showSnackBar(context: context, message: 'ДА');
+        }
+      },
+    );
+
+    emit(state.copyWith(
+      eventState: HomeEventState.initial,
+    ));
+  }
+
 
   void setGroup(Group group) {
     emit(state.copyWith(group: group));

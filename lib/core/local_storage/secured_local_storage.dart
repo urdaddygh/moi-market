@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -15,6 +13,7 @@ class SecuredLocalStorage extends LocalStorage {
   static const passwordKey = 'password';
   static const appSettingsKey = 'app_settings';
   static const isMockAccountKey = 'mock_account';
+  static const keyLanguageCode = 'language_code';
 
   @override
   Future<SuccessLogin?> fetchAccount() async {
@@ -129,4 +128,31 @@ class SecuredLocalStorage extends LocalStorage {
     }
   }
 
+  @override
+  Future<void> writeLanguageCode(String languageCode) async {
+    try {
+      await storage.write(key: keyLanguageCode, value: languageCode);
+    } catch (e) {
+      logger.e('[SecuredLocalStorage] $e');
+    }
+  }
+
+  @override
+  Future<String?> readLanguageCode() async {
+    try {
+      return storage.read(key: keyLanguageCode);
+    } catch (e) {
+      logger.e('[SecuredLocalStorage] $e');
+      return null;
+    }
+  }
+
+  @override
+  Future<void> flushLanguageCode() async {
+    try {
+      await storage.delete(key: keyLanguageCode);
+    } catch (e) {
+      logger.e('[SecuredLocalStorage] $e');
+    }
+  }
 }

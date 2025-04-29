@@ -9,9 +9,12 @@ import 'package:moi_market/core/theme/style.dart';
 import 'package:moi_market/core/widgets/default_elevated_button.dart';
 import 'package:moi_market/features/home/presentation/cubit/home_cubit.dart';
 import 'package:moi_market/features/home/presentation/cubit/home_state.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ShowPhotoDialog extends StatelessWidget {
-  const ShowPhotoDialog({super.key});
+  const ShowPhotoDialog({super.key, this.imageLink});
+
+  final String? imageLink;
 
   @override
   Widget build(BuildContext context) {
@@ -39,62 +42,88 @@ class ShowPhotoDialog extends StatelessWidget {
             child: SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: Style.defaultPaddingVertical),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: Style.middleSpacing, left: Style.middleSpacing * 4),
-                      child: Row(
-                        children: [
-                          const Expanded(
-                            child: Center(
-                              child: Text('Добавить чек', style: Style.titleText),
-                            ),
+                child: BlocBuilder<HomeCubit, HomeState>(
+                  builder: (context, state) {
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(right: Style.middleSpacing, left: Style.middleSpacing * 4),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Center(
+                                  child: Text(AppLocalizations.of(context)!.addReceipt, style: Style.titleText),
+                                ),
+                              ),
+                              IconButton(
+                                  onPressed: () =>
+                                      {Navigator.pop(context), BlocProvider.of<HomeCubit>(context).flushAttachment()},
+                                  icon: const Icon(
+                                    Icons.clear,
+                                    color: Style.hintTextColor,
+                                  )),
+                            ],
                           ),
-                          IconButton(
-                              onPressed: () => {Navigator.pop(context), BlocProvider.of<HomeCubit>(context).flushAttachment()},
-                              icon: const Icon(
-                                Icons.clear,
-                                color: Style.hintTextColor,
-                              )),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: Style.largeSpacing),
-                    BlocBuilder<HomeCubit, HomeState>(
-                      builder: (context, state) {
-                        return Container(
+                        ),
+                        const SizedBox(height: Style.largeSpacing),
+                        Container(
                           width: double.infinity,
                           height: 400,
                           color: Style.primaryBlackColor.withValues(alpha: 0.1),
-                          child: state.attachment != null
-                              ? Image.file(File(state.attachment!.path))
-                              : Image.asset('assets/images/check.png'),
-                        );
-                      },
-                    ),
-                    const SizedBox(height: Style.defaultPaddingVertical),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: Style.bigSpacing),
-                      child: Column(
-                        children: [
-                          DefaultElevatedButton(
-                              text: 'Добавить',
-                              onPressed: () => BlocProvider.of<HomeCubit>(context).choosePhoto(context, ImageSource.camera)),
-                          const SizedBox(height: Style.middleSpacing + 2),
-                          DefaultElevatedButton(
-                            text: 'Добавить из галереи',
-                            onPressed: () => BlocProvider.of<HomeCubit>(context).choosePhoto(context, ImageSource.gallery),
-                            color: Style.primaryWhiteColor,
-                            textColor: Style.primaryColor,
-                            side: const BorderSide(
-                              width: 1.5,
-                              color: Style.primaryColor,
-                            ),
+                          child: Stack(
+                            children: [
+                              Center(
+                                child: state.attachment != null
+                                    ? Image.file(File(state.attachment!.path))
+                                    : imageLink != null
+                                        ? Image.network(imageLink!)
+                                        : Image.asset('assets/images/no_image.png'),
+                              ),
+                              if (state.attachment != null)
+                                Positioned(
+                                  top: 20,
+                                  right: 5,
+                                  child: IconButton(
+                                    onPressed: () => BlocProvider.of<HomeCubit>(context).flushAttachment(),
+                                    icon: const Icon(
+                                      size: 30,
+                                      Icons.delete,
+                                      color: Colors.red,
+                                    ),
+                                  ),
+                                ),
+                            ],
                           ),
-                        ],
-                      ),
-                    )
-                  ],
+                        ),
+                        const SizedBox(height: Style.defaultPaddingVertical),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: Style.bigSpacing),
+                          child: Column(
+                            children: [
+                              DefaultElevatedButton(
+                                text: AppLocalizations.of(context)!.add,
+                                onPressed: () => state.attachment != null
+                                    ? BlocProvider.of<HomeCubit>(context)
+                                        .addReceipt(context: context, ticket: 0, schedule: 0)
+                                    : BlocProvider.of<HomeCubit>(context).choosePhoto(context, ImageSource.camera),
+                              ),
+                              const SizedBox(height: Style.middleSpacing + 2),
+                              DefaultElevatedButton(
+                                text: AppLocalizations.of(context)!.addInGallery,
+                                onPressed: () => BlocProvider.of<HomeCubit>(context).choosePhoto(context, ImageSource.gallery),
+                                color: Style.primaryWhiteColor,
+                                textColor: Style.primaryColor,
+                                side: const BorderSide(
+                                  width: 1.5,
+                                  color: Style.primaryColor,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    );
+                  },
                 ),
               ),
             ),

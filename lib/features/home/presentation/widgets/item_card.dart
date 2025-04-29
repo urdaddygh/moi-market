@@ -3,7 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:moi_market/core/theme/style.dart';
 import 'package:moi_market/core/widgets/default_divider.dart';
 import 'package:moi_market/features/home/data/models/group.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ItemCard extends StatelessWidget {
   const ItemCard({super.key, this.onTap, required this.group});
   final void Function()? onTap;
@@ -44,7 +44,7 @@ class ItemCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        'Группа №${group?.id ?? '—'}',
+                        '${AppLocalizations.of(context)!.group} №${group?.id ?? '—'}',
                         style: Style.bigText,
                         textAlign: TextAlign.start,
                       ),
@@ -55,7 +55,7 @@ class ItemCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              'Дата создания:',
+                              '${AppLocalizations.of(context)!.createDate}:',
                               style: Style.smallText.copyWith(
                                 fontSize: 10,
                                 color: Style.primaryBlackColor
@@ -85,7 +85,7 @@ class ItemCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Статус оплаты:',
+                        '${AppLocalizations.of(context)!.payStatus}:',
                         style: Style.smallText.copyWith(
                           color: Style.primaryBlackColor
                               .withValues(alpha: 0.7),
@@ -98,7 +98,7 @@ class ItemCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'График погашения:',
+                        '${AppLocalizations.of(context)!.repaymentSchedule}:',
                         style: Style.smallText.copyWith(
                           color: Style.primaryBlackColor
                               .withValues(alpha: 0.7),

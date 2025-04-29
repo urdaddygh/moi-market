@@ -175,7 +175,7 @@ class Style {
     constraints: BoxConstraints(maxHeight: 80),
   );
 
-  static final defaultDateFormat = DateFormat('dd MMM HH:mm', 'ru');
+  static final defaultDateFormat = DateFormat('dd MMM yyyy', 'ru');
   static final defaultWithYearDateFormat = DateFormat('dd MMM yyyy', 'ru');
   static final defaultTimeDateFormat = DateFormat('HH:mm');
   static final greenSpaceDateFormat = DateFormat('dd.MM.yy');

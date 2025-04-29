@@ -18,7 +18,7 @@ class AppNotification {
   @JsonKey(name: 'created_at')
   final DateTime? createdAt;
   @JsonKey(name: 'is_read')
-  final String? isRead;
+  final bool? isRead;
   @JsonKey(name: 'is_system')
   final bool? isSystem;
 

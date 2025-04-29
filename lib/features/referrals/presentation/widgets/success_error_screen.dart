@@ -5,7 +5,7 @@ import 'package:moi_market/core/widgets/default_custom_wrapper.dart';
 import 'package:moi_market/core/widgets/default_elevated_button.dart';
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_cubit.dart';
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_state.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class SuccessErrorScreen extends StatelessWidget {
   const SuccessErrorScreen({super.key});
 
@@ -38,18 +38,18 @@ class SuccessErrorScreen extends StatelessWidget {
                             if (state.referralScreen == ReferralScreen.errorScreen) ...[
                               Image.asset('assets/images/warning.png'),
                               const SizedBox(height: 43),
-                              const Text('Реферал не добавлен. Произошла ошибка.', style: Style.bigText,)
+                              Text(AppLocalizations.of(context)!.referralHasNotBeenAdded, style: Style.bigText,)
                             ] else ...[
                               Image.asset('assets/images/success.png'),
                               const SizedBox(height: 43),
-                              const Text('Реферал успешно добавлен!', style: Style.bigText)
+                              Text(AppLocalizations.of(context)!.referralSuccessAdded, style: Style.bigText)
                             ]
                           ],
                         ),
                       ),
                       DefaultElevatedButton(
                         color: state.referralScreen == ReferralScreen.errorScreen ? Style.primarySecondColor : null,
-                        text: state.referralScreen == ReferralScreen.errorScreen ? 'Попробовать еще раз' : 'Добавить еще',
+                        text: state.referralScreen == ReferralScreen.errorScreen ? AppLocalizations.of(context)!.tryAgain : AppLocalizations.of(context)!.addMore,
                         onPressed: () => BlocProvider.of<ReferralsCubit>(context).changeScreen(ReferralScreen.addReferralScreen),
                       ),
                       const SizedBox(height: Style.defaultPaddingVertical),

@@ -8,7 +8,7 @@ class NotificationApi extends BaseApiService {
 
   Future<CommonNotificationsRespons> getNotifications({required int limit, required int page}) async {
     var res = await baseRequest(
-        endpoint: 'groups/',
+        endpoint: 'notifications/',
         queryParameters: {
           "limit": limit,
           "page": page,

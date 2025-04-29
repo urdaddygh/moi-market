@@ -8,14 +8,14 @@ import 'package:moi_market/core/widgets/default_divider.dart';
 import 'package:moi_market/core/widgets/default_elevated_button.dart';
 import 'package:moi_market/core/widgets/icon_container.dart';
 import 'package:moi_market/features/personal_account/presentation/cubit/personal_account_cubit.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class PersonalAccountPage extends StatelessWidget {
   const PersonalAccountPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return DefaultCustomWrapper(
-      headerTitle: 'Личный кабинет',
+      headerTitle: AppLocalizations.of(context)!.personalAccount,
       body: Column(
         children: [
           const SizedBox(height: Style.defaultPaddingVertical),
@@ -46,21 +46,21 @@ class PersonalAccountPage extends StatelessWidget {
               textColor: Style.primarySecondColor,
               color: Style.primaryWhiteColor,
               side: const BorderSide(width: 1.5, color: Style.primarySecondColor),
-              text: 'Удалить аккаунт',
+              text: AppLocalizations.of(context)!.deleteAccount,
               onPressed: () {
                 showDialog(
                   barrierColor: Colors.grey.withValues(alpha: 0.2),
                   context: context,
                   builder: (context) => DefaultAlertDialog(
-                    title: const Text('Удалить ваш аккаунт?', textAlign: TextAlign.center, maxLines: 1, style: Style.titleText,),
-                    content: const Text('Это действие необратимо.', textAlign: TextAlign.center,style: Style.bigText,),
+                    title: Text(AppLocalizations.of(context)!.messageDeleteYourAccount, textAlign: TextAlign.center, maxLines: 1, style: Style.titleText,),
+                    content: Text(AppLocalizations.of(context)!.thisActionIsIrreversible, textAlign: TextAlign.center,style: Style.bigText,),
                       actions: [
                         Expanded(
                           child: DefaultElevatedButton(
                             onPressed: () {
                               BlocProvider.of<PersonalAccountCubit>(context).logout(context);
                             },
-                            text: 'Удалить',
+                            text: AppLocalizations.of(context)!.delete,
                             color: Style.primarySecondColor,
                           ),
                         ),
@@ -70,7 +70,7 @@ class PersonalAccountPage extends StatelessWidget {
                             onPressed: () {
                               Navigator.of(context).pop();
                             },
-                            text: 'Отменить',
+                            text: AppLocalizations.of(context)!.cancel,
                             color: Style.primaryWhiteColor,
                             textColor: Style.primaryColor,
                             side: const BorderSide(width: 1.5, color: Style.primaryColor),

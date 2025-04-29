@@ -17,4 +17,8 @@ abstract class LocalStorage {
   Future<String?> fetchPassword();
   Future<void> flushPassword();
   Future<void> writePassword(String value);
+
+  Future<void> writeLanguageCode(String languageCode);
+  Future<String?> readLanguageCode();
+  Future<void> flushLanguageCode();
 }

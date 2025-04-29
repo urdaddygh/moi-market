@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:moi_market/core/theme/style.dart';
 import 'package:moi_market/features/home/data/models/ticket.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class ParticipantsTable extends StatelessWidget {
   const ParticipantsTable({super.key, required this.tickets});
 
@@ -14,7 +14,7 @@ class ParticipantsTable extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildHeader(),
+        _buildHeader(context),
         const SizedBox(height: Style.bigSpacing),
         if(tickets!=null)  
         ...tickets!.map((e) => _buildRow(
@@ -26,13 +26,13 @@ class ParticipantsTable extends StatelessWidget {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Expanded(
           child: Text(
-            'Список участников:',
+            '${AppLocalizations.of(context)!.listOfParticipants}:',
             style: Style.smallText.copyWith(
               color: Style.primaryBlackColor.withValues(alpha: 0.7),
             ),
@@ -40,7 +40,7 @@ class ParticipantsTable extends StatelessWidget {
         ),
         Expanded(
           child: Text(
-            'Получено',
+            AppLocalizations.of(context)!.received,
             style: Style.smallText.copyWith(
               color: Style.primaryBlackColor.withValues(alpha: 0.7),
             ),

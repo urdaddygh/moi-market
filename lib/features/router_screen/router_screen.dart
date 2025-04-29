@@ -10,7 +10,7 @@ import 'package:moi_market/features/personal_account/presentation/pages/personal
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_cubit.dart';
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_state.dart';
 import 'package:moi_market/features/referrals/presentation/pages/referrals_page.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class RouterScreen extends StatefulWidget {
   const RouterScreen({super.key});
 
@@ -60,8 +60,8 @@ class _RouterScreenState extends State<RouterScreen> {
           showDialog(
             context: context,
             builder: (context) => DefaultAlertDialog(
-                title: const Text('Вы уверены?', textAlign: TextAlign.center, maxLines: 1, style: Style.titleText,),
-                content: const Text('Вы хотите закрыть приложение?', textAlign: TextAlign.center,style: Style.bigText,),
+                title:  Text(AppLocalizations.of(context)!.areYouSure, textAlign: TextAlign.center, maxLines: 1, style: Style.titleText,),
+                content:  Text(AppLocalizations.of(context)!.messageYouWantToCloseApp, textAlign: TextAlign.center,style: Style.bigText,),
                 actions: [
                   Expanded(
                     child: DefaultElevatedButton(
@@ -69,7 +69,7 @@ class _RouterScreenState extends State<RouterScreen> {
                         Navigator.pop(context);
                         Navigator.maybePop(context);
                       },
-                      text: 'Да',
+                      text: AppLocalizations.of(context)!.yes,
                       color: Style.primarySecondColor,
                     ),
                   ),
@@ -79,7 +79,7 @@ class _RouterScreenState extends State<RouterScreen> {
                       onPressed: () {
                         Navigator.of(context).pop();
                       },
-                      text: 'Нет',
+                      text: AppLocalizations.of(context)!.no,
                       color: Style.primaryWhiteColor,
                       textColor: Style.primaryColor,
                       side: const BorderSide(width: 1.5, color: Style.primaryColor),

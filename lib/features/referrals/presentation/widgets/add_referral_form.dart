@@ -8,7 +8,7 @@ import 'package:moi_market/core/widgets/default_elevated_button.dart';
 import 'package:moi_market/core/widgets/default_text_form_field.dart';
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_cubit.dart';
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_state.dart';
-
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 class AddReferralForm extends StatefulWidget {
   const AddReferralForm({super.key});
 
@@ -32,15 +32,15 @@ class _AddReferralFormState extends State<AddReferralForm> {
         }
       },
       child: DefaultCustomWrapper(
-        headerTitle: 'Рефералы',
+        headerTitle: AppLocalizations.of(context)!.referrals,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: Style.defaultPaddingVertical),
-            const Text('Добавить реферала', style: Style.bigText),
+            Text(AppLocalizations.of(context)!.addReferral, style: Style.bigText),
             const SizedBox(height: 10),
-            const Text(
-              'Добавьте реферала, заполнив данные о нем.',
+            Text(
+              AppLocalizations.of(context)!.addReferralFillingInTheirDetails,
               style: Style.mainText,
             ),
             const SizedBox(height: Style.bigSpacing),
@@ -50,19 +50,19 @@ class _AddReferralFormState extends State<AddReferralForm> {
                   child: Column(
                     children: [
                       DefaultTextFormField(
-                        hintText: 'ФИО реферала',
+                        hintText: AppLocalizations.of(context)!.fioReferral,
                         controller: _nameController,
                         validator: TextFieldValidators.cantBeEmptyValidator(context: context),
                       ),
                       const SizedBox(height: 10),
                       DefaultTextFormField(
-                        hintText: 'Номер телефона реферала',
+                        hintText: AppLocalizations.of(context)!.phoneNumberReferral,
                         validator: TextFieldValidators.cantBeEmptyValidator(context: context),
                         controller: _phoneController,
                       ),
                       const Spacer(),
                       DefaultElevatedButton(
-                        text: 'Добавить реферала',
+                        text: AppLocalizations.of(context)!.addReferral,
                         onPressed: () async {
                           if (_formKey.currentState?.validate() ?? false) {
                             await BlocProvider.of<ReferralsCubit>(context).addReferral(

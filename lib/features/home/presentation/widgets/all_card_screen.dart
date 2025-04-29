@@ -5,6 +5,7 @@ import 'package:moi_market/features/home/presentation/cubit/home_cubit.dart';
 import 'package:moi_market/features/home/presentation/cubit/home_state.dart';
 import 'package:moi_market/features/home/presentation/widgets/item_card.dart';
 import 'package:moi_market/core/widgets/triple_tab_card.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AllCardScreen extends StatefulWidget {
   const AllCardScreen({super.key});
@@ -48,9 +49,9 @@ class _AllCardScreenState extends State<AllCardScreen> {
             builder: (context, state) {
               return TripleTabCard(
                 indicatorColor: Style.primaryColor,
-                firstTitle: 'Все',
-                secondTitle: 'Активные',
-                thirdTitle: 'Неактивные',
+                firstTitle: AppLocalizations.of(context)!.all,
+                secondTitle: AppLocalizations.of(context)!.active,
+                thirdTitle: AppLocalizations.of(context)!.unActive,
                 firstTab: state.eventState == HomeEventState.loading
                     ? const Center(child: CircularProgressIndicator())
                     : state.groups == null || state.groups!.isEmpty
@@ -58,13 +59,13 @@ class _AllCardScreenState extends State<AllCardScreen> {
                             child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Text('Пусто', style: Style.mainText),
+                              Text(AppLocalizations.of(context)!.empty, style: Style.mainText),
                               TextButton(
                                 onPressed: () =>
                                     BlocProvider.of<HomeCubit>(context)
                                         .loadGroups(context: context),
                                 child: Text(
-                                  'Обновить',
+                                  AppLocalizations.of(context)!.update,
                                   style: Style.buttonText
                                       .copyWith(color: Style.primaryColor),
                                 ),
