@@ -10,8 +10,7 @@ import 'package:moi_market/features/notification/presentation/widgets/notificati
 import 'notification_state.dart';
 
 class NotificationCubit extends Cubit<NotificationState> {
-  NotificationCubit({NotificationState? state})
-      : super(state ?? const NotificationState());
+  NotificationCubit({NotificationState? state}) : super(state ?? const NotificationState());
 
   int? extractPageNumber(String? url) {
     if (url == null) return null;
@@ -21,10 +20,8 @@ class NotificationCubit extends Cubit<NotificationState> {
     return page != null ? int.tryParse(page) : null;
   }
 
-  Future<void> loadNotifications(
-      {required BuildContext context, bool isLoadMore = false}) async {
-    if (state.eventState == NotificationEventState.loading ||
-        state.isLoadingMore) {
+  Future<void> loadNotifications({required BuildContext context, bool isLoadMore = false}) async {
+    if (state.eventState == NotificationEventState.loading || state.isLoadingMore) {
       return;
     }
     int? nextPage;
@@ -37,9 +34,7 @@ class NotificationCubit extends Cubit<NotificationState> {
     await ApiServiceExceptionHandler().apiServiceExceptionHandler(
       context: context,
       code: () async {
-        final newNotifications = await GetIt.I
-            .get<NotificationRepository>()
-            .getNotifications(limit: 10, page: nextPage ?? 1);
+        final newNotifications = await GetIt.I.get<NotificationRepository>().getNotifications(limit: 10, page: nextPage ?? 1);
         emit(state.copyWith(commonResponse: newNotifications));
 
         nextPage = extractPageNumber(newNotifications.next);
@@ -47,11 +42,21 @@ class NotificationCubit extends Cubit<NotificationState> {
           var reversed = newNotifications.results!.reversed.toList();
           if (isLoadMore && state.notifications != null) {
             final mergedResults = [...state.notifications!, ...reversed];
+            final readResults = [...state.readNotifications!, ...reversed.where((e) => e.isRead == true)];
+            final unreadResults = [...state.unreadNotifications!, ...reversed.where((e) => e.isRead != true)];
             emit(state.copyWith(
               notifications: mergedResults,
+              readNotifications: readResults,
+              unreadNotifications: unreadResults,
             ));
           } else {
-            emit(state.copyWith(notifications: reversed));
+            emit(
+              state.copyWith(
+                notifications: reversed,
+                readNotifications: reversed.where((e) => e.isRead == true).toList(),
+                unreadNotifications: reversed.where((e) => e.isRead != true).toList(),
+              ),
+            );
           }
         }
       },
@@ -63,15 +68,42 @@ class NotificationCubit extends Cubit<NotificationState> {
     ));
   }
 
-  void setNotification(AppNotification notification, BuildContext context) {
-    emit(state.copyWith(notification: notification));
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => const NotificationDetailed(),
-      ),
+  Future<void> loadNotificationById({required int id, required BuildContext context}) async {
+    if (state.eventState == NotificationEventState.loading || state.isLoadingMore) {
+      return;
+    }
+    emit(state.copyWith(eventState: NotificationEventState.loading));
+
+    await ApiServiceExceptionHandler().apiServiceExceptionHandler(
+      context: context,
+      code: () async {
+        final newNotification = await GetIt.I.get<NotificationRepository>().getNotificationById(id: id);
+
+        emit(state.copyWith(notification: newNotification));
+
+        if (!context.mounted) return;
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const NotificationDetailed(),
+          ),
+        );
+      },
     );
+
+    emit(state.copyWith(eventState: NotificationEventState.initial));
   }
+
+  // void setNotification(AppNotification notification, BuildContext context) {
+  //   emit(state.copyWith(notification: notification));
+  //   Navigator.push(
+  //     context,
+  //     MaterialPageRoute(
+  //       builder: (context) => const NotificationDetailed(),
+  //     ),
+  //   );
+  // }
 
   void flushNotification() {
     emit(state.copyWith(notification: null));

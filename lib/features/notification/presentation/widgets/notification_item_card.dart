@@ -7,11 +7,12 @@ import 'package:moi_market/core/widgets/default_elevated_button.dart';
 import 'package:moi_market/features/notification/data/models/app_notification.dart';
 import 'package:moi_market/features/notification/presentation/cubit/notification_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:moi_market/features/notification/presentation/cubit/notification_state.dart';
+
 class NotificationItemCard extends StatelessWidget {
-  const NotificationItemCard({super.key, this.onTap, this.notification});
+  const NotificationItemCard({super.key, this.onTap});
 
   final void Function()? onTap;
-  final AppNotification? notification;
 
   @override
   Widget build(BuildContext context) {
@@ -25,112 +26,118 @@ class NotificationItemCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           boxShadow: Style.itemShadows,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    notification?.createdAt == null
-                        ? '—'
-                        : Style.greenSpaceDateFormat
-                            .format(notification!.createdAt!),
-                    style: Style.smallText.copyWith(
-                      color: Style.primaryBlackColor.withValues(alpha: 0.4),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: Style.smallSpacing,
-                  ),
-                  Text(
-                    notification?.title ?? '',
-                    style: Style.mainText.copyWith(fontWeight: FontWeight.w500),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(
-                    height: Style.smallSpacing,
-                  ),
-                  Text(
-                    notification?.message ?? '',
-                    style: Style.smallText.copyWith(
-                      color: Style.primaryBlackColor.withValues(alpha: 0.4),
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: Style.bigSpacing),
-            Column(
+        child: BlocBuilder<NotificationCubit, NotificationState>(
+          builder: (context, state) {
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  height: 10,
-                  width: 10,
-                  decoration: const BoxDecoration(
-                    color: Style.primarySecondColor,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(100),
-                    ),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        state.notification?.createdAt == null
+                            ? '—'
+                            : Style.greenSpaceDateFormat
+                            .format(state.notification!.createdAt!),
+                        style: Style.smallText.copyWith(
+                          color: Style.primaryBlackColor.withValues(alpha: 0.4),
+                        ),
+                      ),
+                      const SizedBox(
+                        height: Style.smallSpacing,
+                      ),
+                      Text(
+                        state.notification?.title ?? '',
+                        style: Style.mainText.copyWith(fontWeight: FontWeight.w500),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(
+                        height: Style.smallSpacing,
+                      ),
+                      Text(
+                        state.notification?.message ?? '',
+                        style: Style.smallText.copyWith(
+                          color: Style.primaryBlackColor.withValues(alpha: 0.4),
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: Style.largeSpacing),
-                Material(
-                  child: InkWell(
-                    onTap: () => {
-                      showDialog(
-                        barrierColor: Colors.grey.withValues(alpha: 0.2),
-                        context: context,
-                        builder: (context) => DefaultAlertDialog(
-                            title: Text(
-                              AppLocalizations.of(context)!.messageDeleteNotification,
-                              textAlign: TextAlign.center,
-                              maxLines: 1,
-                              style: Style.titleText,
-                            ),
-                            content: Text(
-                              AppLocalizations.of(context)!.thisActionIsIrreversible,
-                              textAlign: TextAlign.center,
-                              style: Style.bigText,
-                            ),
-                            actions: [
-                              Expanded(
-                                child: DefaultElevatedButton(
-                                  onPressed: () {
-                                    BlocProvider.of<NotificationCubit>(context)
-                                        .removeNotification();
-                                  },
-                                  text: AppLocalizations.of(context)!.delete,
-                                  color: Style.primarySecondColor,
-                                ),
-                              ),
-                              const SizedBox(width: 14),
-                              Expanded(
-                                child: DefaultElevatedButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  text: AppLocalizations.of(context)!.cancel,
-                                  color: Style.primaryWhiteColor,
-                                  textColor: Style.primaryColor,
-                                  side: const BorderSide(
-                                      width: 1.5, color: Style.primaryColor),
-                                ),
-                              )
-                            ]),
-                      )
-                    },
-                    child: Ink(
-                      child: SvgPicture.asset('assets/svgs/trash_icon.svg'),
+                const SizedBox(width: Style.bigSpacing),
+                Column(
+                  children: [
+                    Container(
+                      height: 10,
+                      width: 10,
+                      decoration: BoxDecoration(
+                        color: state.notification?.isRead ?? false ? Colors.transparent : Style.primarySecondColor,
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(100),
+                        ),
+                      ),
                     ),
-                  ),
-                )
+                    const SizedBox(height: Style.largeSpacing),
+                    Material(
+                      child: InkWell(
+                        onTap: () =>
+                        {
+                          showDialog(
+                            barrierColor: Colors.grey.withValues(alpha: 0.2),
+                            context: context,
+                            builder: (context) =>
+                                DefaultAlertDialog(
+                                    title: Text(
+                                      AppLocalizations.of(context)!.messageDeleteNotification,
+                                      textAlign: TextAlign.center,
+                                      maxLines: 1,
+                                      style: Style.titleText,
+                                    ),
+                                    content: Text(
+                                      AppLocalizations.of(context)!.thisActionIsIrreversible,
+                                      textAlign: TextAlign.center,
+                                      style: Style.bigText,
+                                    ),
+                                    actions: [
+                                      Expanded(
+                                        child: DefaultElevatedButton(
+                                          onPressed: () {
+                                            BlocProvider.of<NotificationCubit>(context)
+                                                .removeNotification();
+                                          },
+                                          text: AppLocalizations.of(context)!.delete,
+                                          color: Style.primarySecondColor,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 14),
+                                      Expanded(
+                                        child: DefaultElevatedButton(
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                          },
+                                          text: AppLocalizations.of(context)!.cancel,
+                                          color: Style.primaryWhiteColor,
+                                          textColor: Style.primaryColor,
+                                          side: const BorderSide(
+                                              width: 1.5, color: Style.primaryColor),
+                                        ),
+                                      )
+                                    ]),
+                          )
+                        },
+                        child: Ink(
+                          child: SvgPicture.asset('assets/svgs/trash_icon.svg'),
+                        ),
+                      ),
+                    )
+                  ],
+                ),
               ],
-            ),
-          ],
+            );
+          },
         ),
       ),
     );

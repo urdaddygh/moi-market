@@ -2,8 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get_it/get_it.dart';
 import 'package:logger/logger.dart';
 import 'package:moi_market/application.dart';
+import 'package:moi_market/core/cubit/language/language_state.dart';
+import 'package:moi_market/core/local_storage/local_storage.dart';
 import 'package:moi_market/di/service_locator.dart';
 
 final logger = Logger(
@@ -17,9 +20,10 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await _initCertificateForOldAndroids();
   await ServiceLocator().initModules();
+  final language = await _fetchLanguageLocal();
 
   runApp(
-    const Application(),
+    Application(lang: language),
   );
 }
 
@@ -33,4 +37,19 @@ Future _initCertificateForOldAndroids() async {
 
 void initSystemUiMode() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
+}
+Future<Language?> _fetchLanguageLocal() async {
+  try {
+    switch (await GetIt.I.get<LocalStorage>().readLanguageCode()) {
+      case 'ru':
+        return Language.ru;
+      case 'ky':
+        return Language.ky;
+      default:
+        return null;
+    }
+  } catch (e) {
+    logger.e(e);
+  }
+  return null;
 }

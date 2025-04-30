@@ -89,10 +89,7 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                                     onTap: () =>
                                         BlocProvider.of<NotificationCubit>(
                                                 context)
-                                            .setNotification(
-                                                state.notifications![index],
-                                                context),
-                                    notification: state.notifications![index],
+                                            .loadNotificationById(id: state.notifications![index].id ?? 0, context: context),
                                   );
                                 } else {
                                   return const Padding(
@@ -104,8 +101,104 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                               },
                             ),
                           ),
-                secondTab: Container(color: Style.primaryColor),
-                thirdTab: Container(color: Style.primarySecondColor),
+                secondTab: state.eventState == NotificationEventState.loading
+                    ? const Center(child: CircularProgressIndicator())
+                    : state.readNotifications == null ||
+                    state.readNotifications!.isEmpty
+                    ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(AppLocalizations.of(context)!.empty, style: Style.mainText),
+                        TextButton(
+                          onPressed: () =>
+                              BlocProvider.of<NotificationCubit>(context)
+                                  .loadNotifications(context: context),
+                          child: Text(
+                            AppLocalizations.of(context)!.update,
+                            style: Style.buttonText
+                                .copyWith(color: Style.primaryColor),
+                          ),
+                        )
+                      ],
+                    ))
+                    : RefreshIndicator(
+                  onRefresh: () =>
+                      BlocProvider.of<NotificationCubit>(context)
+                          .loadNotifications(context: context),
+                  child: ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    controller: _scrollController,
+                    itemCount: state.readNotifications!.length +
+                        (state.isLoadingMore ? 1 : 0),
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) {
+                      if (index < state.readNotifications!.length) {
+                        return NotificationItemCard(
+                          onTap: () =>
+                              BlocProvider.of<NotificationCubit>(
+                                  context)
+                                  .loadNotificationById(id: state.readNotifications![index].id ?? 0, context: context),
+                        );
+                      } else {
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Center(
+                              child: CircularProgressIndicator()),
+                        );
+                      }
+                    },
+                  ),
+                ),
+                thirdTab: state.eventState == NotificationEventState.loading
+                    ? const Center(child: CircularProgressIndicator())
+                    : state.unreadNotifications == null ||
+                    state.unreadNotifications!.isEmpty
+                    ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(AppLocalizations.of(context)!.empty, style: Style.mainText),
+                        TextButton(
+                          onPressed: () =>
+                              BlocProvider.of<NotificationCubit>(context)
+                                  .loadNotifications(context: context),
+                          child: Text(
+                            AppLocalizations.of(context)!.update,
+                            style: Style.buttonText
+                                .copyWith(color: Style.primaryColor),
+                          ),
+                        )
+                      ],
+                    ))
+                    : RefreshIndicator(
+                  onRefresh: () =>
+                      BlocProvider.of<NotificationCubit>(context)
+                          .loadNotifications(context: context),
+                  child: ListView.builder(
+                    physics: const AlwaysScrollableScrollPhysics(),
+                    controller: _scrollController,
+                    itemCount: state.unreadNotifications!.length +
+                        (state.isLoadingMore ? 1 : 0),
+                    padding: EdgeInsets.zero,
+                    itemBuilder: (context, index) {
+                      if (index < state.unreadNotifications!.length) {
+                        return NotificationItemCard(
+                          onTap: () =>
+                              BlocProvider.of<NotificationCubit>(
+                                  context)
+                                  .loadNotificationById(id: state.unreadNotifications![index].id ?? 0, context: context)
+                        );
+                      } else {
+                        return const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 16),
+                          child: Center(
+                              child: CircularProgressIndicator()),
+                        );
+                      }
+                    },
+                  ),
+                ),
               );
             },
           ),

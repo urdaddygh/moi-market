@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:moi_market/core/cubit/language/language_cubit.dart';
 import 'package:moi_market/core/cubit/language/language_state.dart';
+import 'package:moi_market/core/local_storage/local_storage.dart';
 import 'package:moi_market/core/theme/app_theme.dart';
 import 'package:moi_market/features/auth/domain/repositories/auth_repository.dart';
 import 'package:moi_market/features/auth/presentation/cubit/auth_cubit.dart';
@@ -13,17 +14,18 @@ import 'package:moi_market/features/notification/presentation/cubit/notification
 import 'package:moi_market/features/personal_account/presentation/cubit/personal_account_cubit.dart';
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:moi_market/main.dart';
 
 class Application extends StatelessWidget {
-  const Application({super.key});
+  const Application({super.key, this.lang});
 
   // final Stream<LocationMarkerPosition?>? locationMarkerStream;
-
+  final Language? lang;
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => LanguageCubit()),
+        BlocProvider(create: (context) => LanguageCubit(initialLanguage: lang)),
         BlocProvider(create: (context) => AuthCubit(GetIt.I<AuthRepository>())),
         BlocProvider(create: (context) => HomeCubit()),
         BlocProvider(create: (context) => ReferralsCubit()),

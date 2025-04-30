@@ -15,6 +15,8 @@ class NotificationState with _$NotificationState {
   const factory NotificationState({
     @Default(NotificationEventState.initial) NotificationEventState eventState,
     @Default(null) List<AppNotification>? notifications,
+    @Default(null) List<AppNotification>? readNotifications,
+    @Default(null) List<AppNotification>? unreadNotifications,
     @Default(null) AppNotification? notification,
     @Default(null) CommonNotificationsRespons? commonResponse,
     @Default(false) bool isLoadingMore,

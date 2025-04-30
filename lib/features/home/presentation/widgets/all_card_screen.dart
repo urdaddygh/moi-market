@@ -37,73 +37,13 @@ class _AllCardScreenState extends State<AllCardScreen> {
                 thirdTitle: AppLocalizations.of(context)!.unActive,
                 firstTab: state.eventState == HomeEventState.loading
                     ? const Center(child: CircularProgressIndicator())
-                    : state.groups == null || state.groups!.isEmpty
-                        ? Center(
-                            child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(AppLocalizations.of(context)!.empty,
-                                  style: Style.mainText),
-                              TextButton(
-                                onPressed: () =>
-                                    BlocProvider.of<HomeCubit>(context)
-                                        .loadGroups(context: context),
-                                child: Text(
-                                  AppLocalizations.of(context)!.update,
-                                  style: Style.buttonText
-                                      .copyWith(color: Style.primaryColor),
-                                ),
-                              )
-                            ],
-                          ))
-                        : FirstTab(),
+                    : const FirstTab(),
                 secondTab: state.eventState == HomeEventState.loading
                     ? const Center(child: CircularProgressIndicator())
-                    : state.activeGroups == null || state.activeGroups!.isEmpty
-                        ? Center(
-                            child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(AppLocalizations.of(context)!.empty,
-                                  style: Style.mainText),
-                              TextButton(
-                                onPressed: () =>
-                                    BlocProvider.of<HomeCubit>(context)
-                                        .loadGroups(
-                                            context: context, status: true),
-                                child: Text(
-                                  AppLocalizations.of(context)!.update,
-                                  style: Style.buttonText
-                                      .copyWith(color: Style.primaryColor),
-                                ),
-                              )
-                            ],
-                          ))
-                        : const SecondTab(),
+                    : const SecondTab(),
                 thirdTab: state.eventState == HomeEventState.loading
                     ? const Center(child: CircularProgressIndicator())
-                    : state.unActiveGroups == null ||
-                            state.unActiveGroups!.isEmpty
-                        ? Center(
-                            child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(AppLocalizations.of(context)!.empty,
-                                  style: Style.mainText),
-                              TextButton(
-                                onPressed: () =>
-                                    BlocProvider.of<HomeCubit>(context)
-                                        .loadGroups(
-                                            context: context, status: false),
-                                child: Text(
-                                  AppLocalizations.of(context)!.update,
-                                  style: Style.buttonText
-                                      .copyWith(color: Style.primaryColor),
-                                ),
-                              )
-                            ],
-                          ))
-                        : const ThirdTab(),
+                    : const ThirdTab(),
               );
             },
           ),
