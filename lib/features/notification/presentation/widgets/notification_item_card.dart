@@ -10,10 +10,10 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:moi_market/features/notification/presentation/cubit/notification_state.dart';
 
 class NotificationItemCard extends StatelessWidget {
-  const NotificationItemCard({super.key, this.onTap});
+  const NotificationItemCard({super.key, this.onTap, this.notification});
 
   final void Function()? onTap;
-
+  final AppNotification? notification;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -26,9 +26,7 @@ class NotificationItemCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(12),
           boxShadow: Style.itemShadows,
         ),
-        child: BlocBuilder<NotificationCubit, NotificationState>(
-          builder: (context, state) {
-            return Row(
+        child:  Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
@@ -36,10 +34,10 @@ class NotificationItemCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        state.notification?.createdAt == null
+                        notification?.createdAt == null
                             ? '—'
                             : Style.greenSpaceDateFormat
-                            .format(state.notification!.createdAt!),
+                            .format(notification!.createdAt!),
                         style: Style.smallText.copyWith(
                           color: Style.primaryBlackColor.withValues(alpha: 0.4),
                         ),
@@ -48,7 +46,7 @@ class NotificationItemCard extends StatelessWidget {
                         height: Style.smallSpacing,
                       ),
                       Text(
-                        state.notification?.title ?? '',
+                        notification?.id?.toString() ?? '',
                         style: Style.mainText.copyWith(fontWeight: FontWeight.w500),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -57,7 +55,7 @@ class NotificationItemCard extends StatelessWidget {
                         height: Style.smallSpacing,
                       ),
                       Text(
-                        state.notification?.message ?? '',
+                        notification?.message ?? '',
                         style: Style.smallText.copyWith(
                           color: Style.primaryBlackColor.withValues(alpha: 0.4),
                         ),
@@ -74,7 +72,7 @@ class NotificationItemCard extends StatelessWidget {
                       height: 10,
                       width: 10,
                       decoration: BoxDecoration(
-                        color: state.notification?.isRead ?? false ? Colors.transparent : Style.primarySecondColor,
+                        color: notification?.isRead ?? false ? Colors.transparent : Style.primarySecondColor,
                         borderRadius: const BorderRadius.all(
                           Radius.circular(100),
                         ),
@@ -136,9 +134,7 @@ class NotificationItemCard extends StatelessWidget {
                   ],
                 ),
               ],
-            );
-          },
-        ),
+            ),
       ),
     );
   }

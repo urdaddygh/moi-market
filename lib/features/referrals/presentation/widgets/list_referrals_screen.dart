@@ -54,7 +54,6 @@ class _ListReferralsScreenState extends State<ListReferralsScreen> {
                 },
               ),
             ),
-            const Spacer(),
             DefaultElevatedButton(
               text: AppLocalizations.of(context)!.addReferral,
               onPressed: () => BlocProvider.of<ReferralsCubit>(context).changeScreen(ReferralScreen.addReferralScreen),

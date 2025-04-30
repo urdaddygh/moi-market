@@ -1,4 +1,5 @@
 import 'package:moi_market/features/personal_account/data/api/personal_account_api.dart';
+import 'package:moi_market/features/personal_account/data/models/client.dart';
 import 'package:moi_market/features/personal_account/domain/repositories/personal_account_repository.dart';
 
 class PersonalAccountRepositoryImpl implements PersonalAccountRepository {
@@ -7,7 +8,7 @@ class PersonalAccountRepositoryImpl implements PersonalAccountRepository {
   PersonalAccountRepositoryImpl({required this.api});
 
   @override
-  Future<String?> getUserInfo() {
+  Future<Client> getUserInfo() {
     return api.getUserInfo();
   }
 }

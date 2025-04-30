@@ -86,6 +86,7 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                               itemBuilder: (context, index) {
                                 if (index < state.notifications!.length) {
                                   return NotificationItemCard(
+                                    notification: state.notifications![index],
                                     onTap: () =>
                                         BlocProvider.of<NotificationCubit>(
                                                 context)
@@ -135,6 +136,7 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                     itemBuilder: (context, index) {
                       if (index < state.readNotifications!.length) {
                         return NotificationItemCard(
+                                    notification: state.readNotifications![index],
                           onTap: () =>
                               BlocProvider.of<NotificationCubit>(
                                   context)
@@ -184,6 +186,7 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                     itemBuilder: (context, index) {
                       if (index < state.unreadNotifications!.length) {
                         return NotificationItemCard(
+                                    notification: state.unreadNotifications![index],
                           onTap: () =>
                               BlocProvider.of<NotificationCubit>(
                                   context)

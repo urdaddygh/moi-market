@@ -20,14 +20,18 @@ class ReferralsTable extends StatelessWidget {
         _buildHeader(context),
         const SizedBox(height: Style.bigSpacing),
           Expanded(
-            child: ListView.builder(
-              itemCount: referrals!.length,
-              itemBuilder: (context, index) {
-                return _buildRow(
-                  name: referrals![index].client?.user?.fullName ?? '—',
-                  status: referrals![index].approved ?? false,
-                );
-              },
+            child: RefreshIndicator(
+              onRefresh: () => BlocProvider.of<ReferralsCubit>(context).loadReferrals(context: context),
+              child: ListView.builder(
+              physics: const AlwaysScrollableScrollPhysics(),
+                itemCount: referrals!.length,
+                itemBuilder: (context, index) {
+                  return _buildRow(
+                    name: referrals![index].fullName ?? '—',
+                    status: referrals![index].approved ?? false,
+                  );
+                },
+              ),
             ),
           ),
         ]

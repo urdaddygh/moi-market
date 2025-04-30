@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:moi_market/features/home/data/models/client.dart';
+import 'package:moi_market/features/personal_account/data/models/client.dart';
 import 'package:moi_market/features/home/data/models/payment.dart';
 
 part 'ticket.g.dart';

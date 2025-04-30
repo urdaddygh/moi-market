@@ -25,4 +25,23 @@ class AppNotification {
   factory AppNotification.fromJson(Map<String, dynamic> json) => _$AppNotificationFromJson(json);
 
   Map<String, dynamic> toJson() => _$AppNotificationToJson(this);
+
+    AppNotification copyWith({
+    int? id,
+    String? title,
+    String? message,
+    DateTime? createdAt,
+    bool? isRead,
+    bool? isSystem,
+  }) {
+    return AppNotification(
+      id ?? this.id,
+      title ?? this.title,
+      message ?? this.message,
+      createdAt ?? this.createdAt,
+      isRead ?? this.isRead,
+      isSystem ?? this.isSystem,
+    );
+  }
+
 }

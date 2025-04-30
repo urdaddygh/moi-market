@@ -39,7 +39,7 @@ abstract class BaseApiService {
           break;
       }
 
-      if (response.statusCode != 200) {
+      if (response.statusCode != 200 && response.statusCode != 201) {
         throw StatusCodeException('${response.statusCode} - ${response.statusMessage}');
       }
 
@@ -52,6 +52,9 @@ abstract class BaseApiService {
       logger.e('[BaseApiService] DioException: ${e.response?.statusCode} - ${e.type}');
       if (e.response?.statusCode == 401) {
         throw StatusCodeException('${e.response?.data['detail']}');
+      }
+      if (e.response?.statusCode == 400) {
+        throw StatusCodeException('${e.response?.data['phone_number']}');
       }
       throw UnexpectedErrorException('Status - ${e.response?.statusCode}, error - ${e.error}, type - ${e.type}');
     } catch (e) {

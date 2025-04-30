@@ -9,79 +9,147 @@ import 'package:moi_market/core/widgets/default_elevated_button.dart';
 import 'package:moi_market/core/widgets/icon_container.dart';
 import 'package:moi_market/features/personal_account/presentation/cubit/personal_account_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-class PersonalAccountPage extends StatelessWidget {
+import 'package:moi_market/features/personal_account/presentation/cubit/personal_account_state.dart';
+
+class PersonalAccountPage extends StatefulWidget {
   const PersonalAccountPage({super.key});
+
+  @override
+  State<PersonalAccountPage> createState() => _PersonalAccountPageState();
+}
+
+class _PersonalAccountPageState extends State<PersonalAccountPage> {
+  @override
+  void initState() {
+    BlocProvider.of<PersonalAccountCubit>(context)
+        .loadUserInfo(context: context);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return DefaultCustomWrapper(
       headerTitle: AppLocalizations.of(context)!.personalAccount,
-      body: Column(
-        children: [
-          const SizedBox(height: Style.defaultPaddingVertical),
-          Row(
-            children: [
-              const IconContainer(
-                svgPath: 'assets/svgs/active_personal_account_icon.svg',
+      body: RefreshIndicator(
+        onRefresh: () async {
+          await BlocProvider.of<PersonalAccountCubit>(context)
+              .loadUserInfo(context: context);
+        },
+        child: CustomScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          slivers: [
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(
+                  vertical: Style.defaultPaddingVertical, horizontal: 16),
+              sliver: SliverList(
+                delegate: SliverChildListDelegate(
+                  [
+                    BlocBuilder<PersonalAccountCubit, PersonalAccountState>(
+                      builder: (context, state) {
+                        return Row(
+                          children: [
+                            const IconContainer(
+                              svgPath:
+                                  'assets/svgs/active_personal_account_icon.svg',
+                            ),
+                            const SizedBox(width: Style.defaultSpacing + 2),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  state.userInfo?.user?.fullName ??
+                                      AppLocalizations.of(context)!.unknown,
+                                  style: Style.bigText,
+                                ),
+                                const SizedBox(height: 5),
+                                Row(
+                                  children: [
+                                    SvgPicture.asset(
+                                        'assets/svgs/snowflake.svg'),
+                                    const SizedBox(width: 6),
+                                    Text(
+                                        "${state.userInfo?.level ?? AppLocalizations.of(context)!.unknown} уровень"),
+                                  ],
+                                )
+                              ],
+                            )
+                          ],
+                        );
+                      },
+                    ),
+                    const DefaultDivider(),
+                  ],
+                ),
               ),
-              const SizedBox(width: Style.defaultSpacing + 2),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Токтосунова Айжан',
-                    style: Style.bigText,
-                  ),
-                  const SizedBox(height: 5),
-                  Row(
-                    children: [SvgPicture.asset('assets/svgs/snowflake.svg'), const SizedBox(width: 6), const Text('1 уровень')],
-                  )
-                ],
-              )
-            ],
-          ),
-          const DefaultDivider(),
-          const Spacer(),
-          DefaultElevatedButton(
-              textColor: Style.primarySecondColor,
-              color: Style.primaryWhiteColor,
-              side: const BorderSide(width: 1.5, color: Style.primarySecondColor),
-              text: AppLocalizations.of(context)!.deleteAccount,
-              onPressed: () {
-                showDialog(
-                  barrierColor: Colors.grey.withValues(alpha: 0.2),
-                  context: context,
-                  builder: (context) => DefaultAlertDialog(
-                    title: Text(AppLocalizations.of(context)!.messageDeleteYourAccount, textAlign: TextAlign.center, maxLines: 1, style: Style.titleText,),
-                    content: Text(AppLocalizations.of(context)!.thisActionIsIrreversible, textAlign: TextAlign.center,style: Style.bigText,),
-                      actions: [
-                        Expanded(
-                          child: DefaultElevatedButton(
-                            onPressed: () {
-                              BlocProvider.of<PersonalAccountCubit>(context).logout(context);
-                            },
-                            text: AppLocalizations.of(context)!.delete,
-                            color: Style.primarySecondColor,
+            ),
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    DefaultElevatedButton(
+                      textColor: Style.primarySecondColor,
+                      color: Style.primaryWhiteColor,
+                      side: const BorderSide(
+                          width: 1.5, color: Style.primarySecondColor),
+                      text: AppLocalizations.of(context)!.deleteAccount,
+                      onPressed: () {
+                        showDialog(
+                          barrierColor: Colors.grey.withAlpha(50),
+                          context: context,
+                          builder: (context) => DefaultAlertDialog(
+                            title: Text(
+                              AppLocalizations.of(context)!
+                                  .messageDeleteYourAccount,
+                              textAlign: TextAlign.center,
+                              maxLines: 1,
+                              style: Style.titleText,
+                            ),
+                            content: Text(
+                              AppLocalizations.of(context)!
+                                  .thisActionIsIrreversible,
+                              textAlign: TextAlign.center,
+                              style: Style.bigText,
+                            ),
+                            actions: [
+                              Expanded(
+                                child: DefaultElevatedButton(
+                                  onPressed: () {
+                                    BlocProvider.of<PersonalAccountCubit>(
+                                            context)
+                                        .logout(context);
+                                  },
+                                  text: AppLocalizations.of(context)!.delete,
+                                  color: Style.primarySecondColor,
+                                ),
+                              ),
+                              const SizedBox(width: 14),
+                              Expanded(
+                                child: DefaultElevatedButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  text: AppLocalizations.of(context)!.cancel,
+                                  color: Style.primaryWhiteColor,
+                                  textColor: Style.primaryColor,
+                                  side: const BorderSide(
+                                      width: 1.5, color: Style.primaryColor),
+                                ),
+                              )
+                            ],
                           ),
-                        ),
-                        const SizedBox(width: 14),
-                        Expanded(
-                          child: DefaultElevatedButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            text: AppLocalizations.of(context)!.cancel,
-                            color: Style.primaryWhiteColor,
-                            textColor: Style.primaryColor,
-                            side: const BorderSide(width: 1.5, color: Style.primaryColor),
-                          ),
-                        )
-                      ]
-                  ),
-                );
-              }),
-          const SizedBox(height: Style.defaultPaddingVertical)
-        ],
+                        );
+                      },
+                    ),
+                    const SizedBox(height: Style.defaultPaddingVertical),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

@@ -68,33 +68,49 @@ class NotificationCubit extends Cubit<NotificationState> {
     ));
   }
 
-  Future<void> loadNotificationById({required int id, required BuildContext context}) async {
-    if (state.eventState == NotificationEventState.loading || state.isLoadingMore) {
-      return;
-    }
-    emit(state.copyWith(eventState: NotificationEventState.loading));
-
-    await ApiServiceExceptionHandler().apiServiceExceptionHandler(
-      context: context,
-      code: () async {
-        final newNotification = await GetIt.I.get<NotificationRepository>().getNotificationById(id: id);
-
-        emit(state.copyWith(notification: newNotification));
-
-        if (!context.mounted) return;
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const NotificationDetailed(),
-          ),
-        );
-      },
-    );
-
-    emit(state.copyWith(eventState: NotificationEventState.initial));
+Future<void> loadNotificationById({required int id, required BuildContext context}) async {
+  if (state.eventState == NotificationEventState.loading || state.isLoadingMore) {
+    return;
   }
 
+  emit(state.copyWith(eventState: NotificationEventState.loading));
+
+  await ApiServiceExceptionHandler().apiServiceExceptionHandler(
+    context: context,
+    code: () async {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const NotificationDetailed(),
+        ),
+      );
+      final rawNotification = await GetIt.I.get<NotificationRepository>().getNotificationById(id: id);
+
+      // Принудительно выставляем флаг isRead = true
+      final newNotification = rawNotification.copyWith(isRead: true);
+
+      // Обновляем основной список уведомлений
+      final updatedAll = state.notifications?.map((n) {
+        return n.id == id ? newNotification : n;
+      }).toList();
+
+      // Обновляем прочитанные/непрочитанные
+      List<AppNotification> updatedUnread = List.of(state.unreadNotifications ?? [])..removeWhere((n) => n.id == id);
+      List<AppNotification> updatedRead = List.of(state.readNotifications ?? [])..add(newNotification);
+
+      emit(state.copyWith(
+        notification: newNotification,
+        notifications: updatedAll,
+        unreadNotifications: updatedUnread,
+        readNotifications: updatedRead,
+      ));
+
+
+    },
+  );
+
+  emit(state.copyWith(eventState: NotificationEventState.initial));
+}
   // void setNotification(AppNotification notification, BuildContext context) {
   //   emit(state.copyWith(notification: notification));
   //   Navigator.push(
