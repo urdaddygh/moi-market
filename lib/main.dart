@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get_it/get_it.dart';
@@ -18,10 +20,12 @@ final logger = Logger(
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await _initCertificateForOldAndroids();
   await ServiceLocator().initModules();
   final language = await _fetchLanguageLocal();
-
+  
   runApp(
     Application(lang: language),
   );
@@ -34,10 +38,15 @@ Future _initCertificateForOldAndroids() async {
   SecurityContext.defaultContext.setTrustedCertificatesBytes(etsEncryptR3.buffer.asUint8List());
 }
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  await Firebase.initializeApp();
+  logger.d("🔙 Получено в фоне: ${message.messageId}");
+}
 
 void initSystemUiMode() {
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.dark);
 }
+
 Future<Language?> _fetchLanguageLocal() async {
   try {
     switch (await GetIt.I.get<LocalStorage>().readLanguageCode()) {

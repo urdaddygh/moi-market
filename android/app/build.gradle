@@ -10,7 +10,7 @@ if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 }
 android {
-    namespace = "com.cdt.transport_evacuation"
+    namespace = "com.upwards.moi_market"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -52,3 +52,5 @@ android {
 flutter {
     source = "../.."
 }
+
+apply plugin: 'com.google.gms.google-services'

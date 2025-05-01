@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "880512355055",
+    "project_id": "moi-market-a7328",
+    "storage_bucket": "moi-market-a7328.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:880512355055:android:c223c2d69d888a06d1291a",
+        "android_client_info": {
+          "package_name": "com.upwards.moi_market"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCxrB0n-2r2MUjidES2Z35ZqsiPGVQ0IrA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

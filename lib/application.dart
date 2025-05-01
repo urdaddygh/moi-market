@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -5,7 +7,6 @@ import 'package:go_router/go_router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:moi_market/core/cubit/language/language_cubit.dart';
 import 'package:moi_market/core/cubit/language/language_state.dart';
-import 'package:moi_market/core/local_storage/local_storage.dart';
 import 'package:moi_market/core/theme/app_theme.dart';
 import 'package:moi_market/features/auth/domain/repositories/auth_repository.dart';
 import 'package:moi_market/features/auth/presentation/cubit/auth_cubit.dart';
@@ -16,16 +17,38 @@ import 'package:moi_market/features/referrals/presentation/cubit/referrals_cubit
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:moi_market/main.dart';
 
-class Application extends StatelessWidget {
+class Application extends StatefulWidget {
   const Application({super.key, this.lang});
 
   // final Stream<LocationMarkerPosition?>? locationMarkerStream;
   final Language? lang;
+
+  @override
+  State<Application> createState() => _ApplicationState();
+}
+
+class _ApplicationState extends State<Application> {
+
+  @override
+  void initState() {
+    requestNotificationPermission();
+
+    setupInteractedMessage();
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('📩 Foreground сообщение: ${message.notification?.title}');
+    });
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
+      print('📲 Нажали на уведомление: ${message.notification?.title}');
+    });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => LanguageCubit(initialLanguage: lang)),
+        BlocProvider(
+            create: (context) => LanguageCubit(initialLanguage: widget.lang)),
         BlocProvider(create: (context) => AuthCubit(GetIt.I<AuthRepository>())),
         BlocProvider(create: (context) => HomeCubit()),
         BlocProvider(create: (context) => ReferralsCubit()),
@@ -54,5 +77,31 @@ class Application extends StatelessWidget {
         },
       ),
     );
+  }
+
+  void requestNotificationPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    logger.d('🔔 Разрешение: ${settings.authorizationStatus}');
+  }
+
+  void setupInteractedMessage() async {
+    RemoteMessage? message =
+        await FirebaseMessaging.instance.getInitialMessage();
+    var token = await FirebaseMessaging.instance.getToken();
+    print('firebase token $token');
+    if (message != null) {
+      print('🚀 Открыто по уведомлению (terminated)');
+    }
   }
 }

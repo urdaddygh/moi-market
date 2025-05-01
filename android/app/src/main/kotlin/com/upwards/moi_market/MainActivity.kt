@@ -1,4 +1,4 @@
-package com.cdt.transport_evacuation
+package com.upwards.moi_market
 
 import io.flutter.embedding.android.FlutterActivity
 
