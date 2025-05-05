@@ -45,6 +45,9 @@ class _ThirdTabState extends State<ThirdTab> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
+        if(state.eventState == HomeEventState.loading){
+          return const Center(child: CircularProgressIndicator());
+        }
         if (state.unActiveGroups == null || state.unActiveGroups!.isEmpty) {
           return Center(
               child: Column(
@@ -61,6 +64,7 @@ class _ThirdTabState extends State<ThirdTab> {
             ],
           ));
         }
+        
         return RefreshIndicator(
           onRefresh: () => BlocProvider.of<HomeCubit>(context).loadGroups(context: context, status: false),
           child: ListView.builder(

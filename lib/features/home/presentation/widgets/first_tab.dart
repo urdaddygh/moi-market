@@ -44,6 +44,9 @@ class _FirstTabState extends State<FirstTab> {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
+        if(state.eventState == HomeEventState.loading){
+          return const Center(child: CircularProgressIndicator());
+        }
         if (state.groups == null || state.groups!.isEmpty) {
           return Center(
               child: Column(

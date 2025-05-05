@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
+import 'package:moi_market/features/home/data/models/my_tickets.dart';
 import 'package:moi_market/features/home/data/models/schedule.dart';
 import 'package:moi_market/features/home/data/models/ticket.dart';
 
@@ -13,7 +14,7 @@ String listGroupToJson(List<Group> data) => jsonEncode(List<dynamic>.from(data.m
 
 @JsonSerializable()
 class Group {
-  Group(this.id, this.ticketLimit, this.entryFee, this.createdAt, this.status, this.paymentDetails, this.comment, this.shuffledAt, this.tickets, this.paymentSchedule, this.ticketCount, this.nextPaymentSchedule,);
+  Group(this.id, this.ticketLimit, this.entryFee, this.createdAt, this.status, this.paymentDetails, this.comment, this.shuffledAt, this.tickets, this.paymentSchedule, this.ticketCount, this.nextPaymentSchedule, this.myTickets,);
   final int? id;
   @JsonKey(name: 'ticket_limit')
   final int? ticketLimit;
@@ -34,6 +35,8 @@ class Group {
   final int? ticketCount;
   @JsonKey(name: 'next_payment_schedule')
   final DateTime? nextPaymentSchedule;
+  @JsonKey(name: 'my_tickets')
+  final List<MyTickets>? myTickets;
 
   factory Group.fromJson(Map<String, dynamic> json) => _$GroupFromJson(json);
 

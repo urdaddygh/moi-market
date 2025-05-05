@@ -15,7 +15,12 @@ class HomeRepositoryImpl implements HomeRepository {
   }
 
   @override
-  Future<String?> addReceipt({required File cheque, required int schedule, required int ticket}) {
+  Future<dynamic> addReceipt({required File cheque, required int schedule, required int ticket}) {
     return api.addReceipt(cheque: cheque, schedule: schedule, ticket: ticket);
+  }
+  
+  @override
+  Future sendFirebaseToken({required String token}) {
+    return api.sendFirebaseToken(token: token);
   }
 }

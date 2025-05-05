@@ -36,6 +36,7 @@
   "personalAccount": "Жеке кабинет",
   "deleteAccount": "Аккаунтту өчүрүү",
   "messageDeleteYourAccount": "Аккаунтуңузду өчүрүүнү каалайсызбы?",
+  "messageExitInYourAccount": "Аккаунттан чыгасбы?",
   "thisActionIsIrreversible": "Бул аракет кайтарылгыс болот.",
 
   "notifications": "Билдирмелер",
@@ -52,6 +53,7 @@
   "messagePhotoEmpty": "Сүрөт кошулган жок",
 
   "empty": "Бош",
+  "exit": "Чыгуу",
   "done": "Даяр",
   "delete": "Өчүрүү",
   "cancel": "Жокко чыгаруу",

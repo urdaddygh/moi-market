@@ -5,6 +5,8 @@ import 'package:moi_market/core/cubit/language/language_cubit.dart';
 import 'package:moi_market/core/cubit/language/language_state.dart';
 import 'package:moi_market/core/theme/style.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:moi_market/features/personal_account/presentation/cubit/personal_account_cubit.dart';
+import 'package:moi_market/features/personal_account/presentation/cubit/personal_account_state.dart';
 
 class DefaultCustomHeader extends StatelessWidget {
   const DefaultCustomHeader({super.key, required this.title});
@@ -33,38 +35,46 @@ class DefaultCustomHeader extends StatelessWidget {
                 color: Style.primaryColor.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(10),
               ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Expanded(child: SvgPicture.asset('assets/svgs/coins.svg')),
-                  Container(
-                    width: double.infinity,
-                    decoration: const BoxDecoration(
-                      color: Style.primaryColor,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(4),
-                      ),
-                    ),
-                    child: const Text(
-                      '250',
-                      style: Style.iconText,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      textAlign: TextAlign.center,
-                    ),
-                  )
-                ],
+              child: BlocBuilder<PersonalAccountCubit, PersonalAccountState>(
+                builder: (context, state) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Expanded(
+                          child: SvgPicture.asset('assets/svgs/coins.svg')),
+                      Container(
+                        width: double.infinity,
+                        decoration: const BoxDecoration(
+                          color: Style.primaryColor,
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(4),
+                          ),
+                        ),
+                        child: Text(
+                          state.userInfo?.bonus?.toString() ?? '0',
+                          style: Style.iconText,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  );
+                },
               ),
             ),
             const SizedBox(width: 6),
             Material(
               child: InkWell(
                 onTap: () async {
-                  var langCode = BlocProvider.of<LanguageCubit>(context).langCode;
+                  var langCode =
+                      BlocProvider.of<LanguageCubit>(context).langCode;
                   if (langCode == 'ru') {
-                    BlocProvider.of<LanguageCubit>(context).changeLanguage(Language.ky);
+                    BlocProvider.of<LanguageCubit>(context)
+                        .changeLanguage(Language.ky);
                   } else {
-                    BlocProvider.of<LanguageCubit>(context).changeLanguage(Language.ru);
+                    BlocProvider.of<LanguageCubit>(context)
+                        .changeLanguage(Language.ru);
                   }
                 },
                 child: Ink(
@@ -78,7 +88,8 @@ class DefaultCustomHeader extends StatelessWidget {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Expanded(child: SvgPicture.asset('assets/svgs/translate.svg')),
+                      Expanded(
+                          child: SvgPicture.asset('assets/svgs/translate.svg')),
                       Container(
                         width: double.infinity,
                         decoration: const BoxDecoration(

@@ -12,14 +12,14 @@ String listScheduleToJson(List<Schedule> data) => jsonEncode(List<dynamic>.from(
 
 @JsonSerializable()
 class Schedule {
-  Schedule(this.id, this.group, this.step, this.dueDate, this.paymentInfo);
+  Schedule(this.id, this.group, this.step, this.dueDate, this.payment);
   final int? id;
   final int? group;
   final int? step;
   @JsonKey(name: 'due_date')
   final DateTime? dueDate;
-  @JsonKey(name: 'payment_info')
-  final PaymentInfo? paymentInfo;
+  @JsonKey(name: 'payment')
+  final PaymentInfo? payment;
 
   factory Schedule.fromJson(Map<String, dynamic> json) => _$ScheduleFromJson(json);
 

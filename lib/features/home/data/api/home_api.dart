@@ -27,18 +27,35 @@ class HomeApi extends BaseApiService {
     var res = await baseRequest(
         endpoint: 'groups/',
         queryParameters: queryParameters,
-        type: RequestType.get);
+        type: RequestType.get,);
 
     if (res == null) throw ResponseIsNullException('Response is null');
     // print('RESPONSE BODY: ${res.toString()}');
     return GroupsCommonResponse.fromJson(res);
   }
 
-  Future<String?> addReceipt({required File cheque, required int schedule, required int ticket}) async {
+  Future<dynamic> addReceipt({required File cheque, required int schedule, required int ticket}) async {
     var res = await uploadMediaResponse(extraFields: {
       "schedule": schedule,
       "ticket": ticket,
-    }, endpoint: 'add-payment/', photo: cheque);
+    }, endpoint: 'groups/add-payment/', photo: cheque);
+
+    if (res == null) throw ResponseIsNullException('Response is null');
+
+    return res;
+  }
+
+    Future<dynamic> sendFirebaseToken({required String token}) async {
+
+    Map<String, dynamic> body;
+      body = {
+        "token": token,
+      };
+
+    var res = await baseRequest(
+        data: body,
+        endpoint: 'store-device-token/',
+        type: RequestType.post,);
 
     if (res == null) throw ResponseIsNullException('Response is null');
 

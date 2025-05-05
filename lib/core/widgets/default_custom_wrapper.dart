@@ -34,7 +34,7 @@ class DefaultCustomWrapper extends StatelessWidget {
               ],
               Expanded(
                 child: Stack(
-                  children: [isLoading ? const CircularProgressIndicator() : body],
+                  children: [isLoading ? const Center(child: CircularProgressIndicator()) : body],
                 ),
               ),
             ],

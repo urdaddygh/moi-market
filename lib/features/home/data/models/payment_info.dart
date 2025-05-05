@@ -13,7 +13,7 @@ class PaymentInfo {
   PaymentInfo(this.paidAt, this.amount, this.isApproved, this.approvedAt, this.cheque);
   @JsonKey(name: 'paid_at')
   final DateTime? paidAt;
-  final int? amount;
+  final String? amount;
   @JsonKey(name: 'is_approved')
   final bool? isApproved;
   @JsonKey(name: 'approved_at')

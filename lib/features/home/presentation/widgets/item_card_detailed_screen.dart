@@ -10,6 +10,7 @@ import 'package:moi_market/features/home/presentation/widgets/participants_table
 import 'package:moi_market/features/home/presentation/widgets/payment_schedule_table.dart';
 import 'package:moi_market/features/home/presentation/widgets/requisites_wrapper.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+
 class ItemCardDetailedScreen extends StatelessWidget {
   const ItemCardDetailedScreen({super.key});
   @override
@@ -20,7 +21,8 @@ class ItemCardDetailedScreen extends StatelessWidget {
           children: [
             const SizedBox(height: Style.bigSpacing),
             RequisitesWrapper(
-              phone: state.group?.paymentDetails ?? AppLocalizations.of(context)!.unknown,
+              phone: state.group?.paymentDetails ??
+                  AppLocalizations.of(context)!.unknown,
             ),
             const SizedBox(height: Style.defaultPaddingVertical),
             Expanded(
@@ -35,7 +37,8 @@ class ItemCardDetailedScreen extends StatelessWidget {
                             child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('${AppLocalizations.of(context)!.group} №${state.group?.id ?? '—'}',
+                            Text(
+                                '${AppLocalizations.of(context)!.group} №${state.group?.id ?? '—'}',
                                 style: Style.bigText),
                             Row(
                               children: [
@@ -52,7 +55,17 @@ class ItemCardDetailedScreen extends StatelessWidget {
                     ),
                     const DefaultDivider(),
                     const SizedBox(height: Style.largeSpacing),
-                     PaymentScheduleTable(schedules: state.group!.paymentSchedule),
+                    if (state.group != null && state.group!.myTickets != null)
+                      ...state.group!.myTickets!.asMap().entries.map(
+                        (entry) {
+                          final index = entry.key + 1;
+                          final ticket = entry.value;
+                          return PaymentScheduleTable(
+                            myTickets: ticket,
+                            index: index,
+                          );
+                        },
+                      ),
                     const SizedBox(height: 40),
                     Row(
                       children: [

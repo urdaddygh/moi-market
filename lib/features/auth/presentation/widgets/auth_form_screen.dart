@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moi_market/core/theme/style.dart';
@@ -17,8 +18,10 @@ class AuthFormScreen extends StatefulWidget {
 }
 
 class _AuthFormScreenState extends State<AuthFormScreen> {
-  final TextEditingController _phoneController = TextEditingController(text: '+996555112233');
-  final TextEditingController _passwordController = TextEditingController(text: '1q2w3e4r');
+  final TextEditingController _phoneController =
+      TextEditingController(text: kDebugMode ? '+996555112233' : '');
+  final TextEditingController _passwordController =
+      TextEditingController(text: kDebugMode ? '1q2w3e4r' : '');
   bool _obscure = true;
 
   void _toggleVisibility() {
@@ -26,12 +29,14 @@ class _AuthFormScreenState extends State<AuthFormScreen> {
       _obscure = !_obscure;
     });
   }
+
   @override
   void dispose() {
     _phoneController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -54,19 +59,24 @@ class _AuthFormScreenState extends State<AuthFormScreen> {
                   child: Column(
                     children: [
                       DefaultTextFormField(
+                        startsWithPlus: true,
                         keyboardType: TextInputType.phone,
                         controller: _phoneController,
                         hintText: 'Номер телефона',
-                        validator: TextFieldValidators.cantBeEmptyValidator(context: context),
+                        validator: TextFieldValidators.cantBeEmptyValidator(
+                            context: context),
                       ),
                       const SizedBox(height: Style.defaultSpacing),
                       DefaultTextFormField(
                         controller: _passwordController,
-                        validator: TextFieldValidators.cantBeEmptyValidator(context: context),
+                        validator: TextFieldValidators.cantBeEmptyValidator(
+                            context: context),
                         obscureText: _obscure,
                         suffixIcon: IconButton(
                           icon: Icon(
-                            _obscure ? Icons.visibility_off_outlined : Icons.visibility_outlined,
+                            _obscure
+                                ? Icons.visibility_off_outlined
+                                : Icons.visibility_outlined,
                             color: Style.hintTextColor,
                           ),
                           onPressed: _toggleVisibility,
@@ -78,18 +88,20 @@ class _AuthFormScreenState extends State<AuthFormScreen> {
                       BlocBuilder<AuthCubit, AuthState>(
                         builder: (context, state) {
                           return DefaultElevatedButton(
-                            isLoading: state.eventState == AuthEventState.loading,
+                            isLoading:
+                                state.eventState == AuthEventState.loading,
                             text: 'Войти',
                             onPressed: () async {
                               if (_formKey.currentState?.validate() ?? false) {
-                                await BlocProvider.of<AuthCubit>(context).tryLogin(
-                                  password: _passwordController.text,
-                                  phone: _phoneController.text,
-                                  context: context
-                                );
+                                await BlocProvider.of<AuthCubit>(context)
+                                    .tryLogin(
+                                        password: _passwordController.text,
+                                        phone: _phoneController.text,
+                                        context: context);
                               }
                             },
-                            color: _passwordController.text.isNotEmpty && _phoneController.text.isNotEmpty
+                            color: _passwordController.text.isNotEmpty &&
+                                    _phoneController.text.isNotEmpty
                                 ? Style.primaryColor
                                 : Style.primaryLightGreyColor,
                           );

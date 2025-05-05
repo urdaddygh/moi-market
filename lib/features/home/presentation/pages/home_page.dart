@@ -1,15 +1,31 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:moi_market/core/widgets/default_custom_wrapper.dart';
+import 'package:moi_market/features/home/domain/repositories/home_repository.dart';
 import 'package:moi_market/features/home/presentation/cubit/home_cubit.dart';
 import 'package:moi_market/features/home/presentation/cubit/home_state.dart';
 import 'package:moi_market/features/home/presentation/widgets/all_card_screen.dart';
 import 'package:moi_market/features/home/presentation/widgets/item_card_detailed_screen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:moi_market/main.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  void initState() {
+    requestNotificationPermission();
+    setupInteractedMessage();
+    super.initState();
+  }
+  
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
@@ -22,5 +38,36 @@ class HomePage extends StatelessWidget {
         );
       },
     );
+  }
+
+    void requestNotificationPermission() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+
+    NotificationSettings settings = await messaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
+    );
+
+    logger.d('🔔 Разрешение: ${settings.authorizationStatus}');
+  }
+
+  void setupInteractedMessage() async {
+    RemoteMessage? message =
+        await FirebaseMessaging.instance.getInitialMessage();
+    // var token = await FirebaseMessaging.instance.getToken();
+    // if(token != null){
+    // await GetIt.I
+    //         .get<HomeRepository>()
+    //         .sendFirebaseToken(token: token);
+    // }
+    // print('firebase token $token');
+    if (message != null) {
+      print('🚀 Открыто по уведомлению (terminated)');
+    }
   }
 }

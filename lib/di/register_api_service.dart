@@ -12,7 +12,7 @@ void registerApiServiceDi({String? token}) {
   GetIt.I.registerSingleton<Dio>(
     Dio(
       BaseOptions(
-        baseUrl: 'http://206.189.43.230:8000/api/client/',
+        baseUrl: 'http://206.189.43.230/api/client/',
         headers: token != null ? {
           'Authorization': 'JWT $token',
         } : null,

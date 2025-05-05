@@ -34,16 +34,16 @@ class NotificationCubit extends Cubit<NotificationState> {
     await ApiServiceExceptionHandler().apiServiceExceptionHandler(
       context: context,
       code: () async {
+        nextPage = extractPageNumber(state.commonResponse?.next);
         final newNotifications = await GetIt.I.get<NotificationRepository>().getNotifications(limit: 10, page: nextPage ?? 1);
         emit(state.copyWith(commonResponse: newNotifications));
 
-        nextPage = extractPageNumber(newNotifications.next);
         if (newNotifications.results != null) {
-          var reversed = newNotifications.results!.reversed.toList();
+          var results = newNotifications.results!;
           if (isLoadMore && state.notifications != null) {
-            final mergedResults = [...state.notifications!, ...reversed];
-            final readResults = [...state.readNotifications!, ...reversed.where((e) => e.isRead == true)];
-            final unreadResults = [...state.unreadNotifications!, ...reversed.where((e) => e.isRead != true)];
+            final mergedResults = [...state.notifications!, ...results];
+            final readResults = [...state.readNotifications!, ...results.where((e) => e.isRead == true)];
+            final unreadResults = [...state.unreadNotifications!, ...results.where((e) => e.isRead != true)];
             emit(state.copyWith(
               notifications: mergedResults,
               readNotifications: readResults,
@@ -52,9 +52,9 @@ class NotificationCubit extends Cubit<NotificationState> {
           } else {
             emit(
               state.copyWith(
-                notifications: reversed,
-                readNotifications: reversed.where((e) => e.isRead == true).toList(),
-                unreadNotifications: reversed.where((e) => e.isRead != true).toList(),
+                notifications: results,
+                readNotifications: results.where((e) => e.isRead == true).toList(),
+                unreadNotifications: results.where((e) => e.isRead != true).toList(),
               ),
             );
           }
@@ -67,6 +67,10 @@ class NotificationCubit extends Cubit<NotificationState> {
       isLoadingMore: false,
     ));
   }
+
+void flushAllNotificationState(){
+  emit(state.copyWith(commonResponse: null, notification: null, notifications: null, readNotifications: null, unreadNotifications: null));
+}
 
 Future<void> loadNotificationById({required int id, required BuildContext context}) async {
   if (state.eventState == NotificationEventState.loading || state.isLoadingMore) {

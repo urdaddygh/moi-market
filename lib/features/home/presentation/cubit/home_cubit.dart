@@ -14,6 +14,20 @@ import 'home_state.dart';
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit({HomeState? state}) : super(state ?? const HomeState());
 
+    Future<void> sendFirebaseToken(
+      {required BuildContext context, required String token}) async {
+
+    await ApiServiceExceptionHandler().apiServiceExceptionHandler(
+      context: context,
+      code: () async {
+        await GetIt.I
+            .get<HomeRepository>()
+            .sendFirebaseToken(token: token);
+
+      },
+    );
+  }
+
   int? extractPageNumber(String? url) {
     if (url == null) return null;
 
@@ -55,13 +69,13 @@ class HomeCubit extends Cubit<HomeState> {
       code: () async {
         if (status == null) {
           int? nextPage;
+          nextPage = extractPageNumber(state.commonResponse?.next);
           final newGroups = await GetIt.I.get<HomeRepository>().getGroups(
                 limit: 10,
                 page: nextPage ?? 1,
               );
           emit(state.copyWith(commonResponse: newGroups));
-
-          nextPage = extractPageNumber(newGroups.next);
+          
           if (newGroups.results != null) {
             var reversed = newGroups.results!.reversed.toList();
             if (isLoadMore && state.groups != null) {
@@ -77,6 +91,7 @@ class HomeCubit extends Cubit<HomeState> {
 
         if (status!) {
           int? nextPage;
+          nextPage = extractPageNumber(state.activeStatusCommonResponse?.next);
           final newGroups = await GetIt.I.get<HomeRepository>().getGroups(
                 limit: 10,
                 page: nextPage ?? 1,
@@ -84,7 +99,6 @@ class HomeCubit extends Cubit<HomeState> {
               );
           emit(state.copyWith(activeStatusCommonResponse: newGroups));
 
-          nextPage = extractPageNumber(newGroups.next);
           if (newGroups.results != null) {
             var reversed = newGroups.results!.reversed.toList();
             if (isLoadMore && state.activeGroups != null) {
@@ -98,14 +112,15 @@ class HomeCubit extends Cubit<HomeState> {
           }
         } else {
            int? nextPage;
+          nextPage = extractPageNumber(state.unActiveStatusCommonResponse?.next);
+
           final newGroups = await GetIt.I.get<HomeRepository>().getGroups(
                 limit: 10,
                 page: nextPage ?? 1,
                 status: 'pending'
               );
-          emit(state.copyWith(unActiveStatusCommonResponse: newGroups));
 
-          nextPage = extractPageNumber(newGroups.next);
+          emit(state.copyWith(unActiveStatusCommonResponse: newGroups));
           if (newGroups.results != null) {
             var reversed = newGroups.results!.reversed.toList();
             if (isLoadMore && state.unActiveGroups != null) {
@@ -128,31 +143,43 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> addReceipt(
-      {required BuildContext context, required int ticket, required int schedule}) async {
+      {required BuildContext context, int? ticket, int? schedule}) async {
     if (state.eventState == HomeEventState.loading) {
       return;
+    }
+    if (state.attachment == null) {
+          UiTools.showSnackBar(context: context, message: AppLocalizations.of(context)!.messagePhotoEmpty);
+          return;
+        }
+
+    if (ticket == null) {
+          UiTools.showSnackBar(context: context, message: 'Неопознанный билет');
+          return;
+    }
+    if (schedule == null) {
+          UiTools.showSnackBar(context: context, message: 'Неопознанный график оплаты');
+          return;
     }
     emit(state.copyWith(eventState: HomeEventState.loading));
 
     await ApiServiceExceptionHandler().apiServiceExceptionHandler(
       context: context,
       code: () async {
-        if (state.attachment != null) {
-          UiTools.showSnackBar(context: context, message: AppLocalizations.of(context)!.messagePhotoEmpty);
-        }
         final data = await GetIt.I
             .get<HomeRepository>()
             .addReceipt(ticket: ticket, schedule: schedule, cheque: File(state.attachment!.path));
 
-        if (data != null) {
-          UiTools.showSnackBar(context: context, message: 'ДА');
-        }
+        emit(state.copyWith(group: null, attachment: null));
+        if (!context.mounted) return;
+        Navigator.pop(context);
       },
     );
 
     emit(state.copyWith(
       eventState: HomeEventState.initial,
     ));
+    if (!context.mounted) return;
+    await loadGroups(context: context);
   }
 
 

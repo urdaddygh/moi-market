@@ -94,7 +94,7 @@ class _PersonalAccountPageState extends State<PersonalAccountPage> {
                       color: Style.primaryWhiteColor,
                       side: const BorderSide(
                           width: 1.5, color: Style.primarySecondColor),
-                      text: AppLocalizations.of(context)!.deleteAccount,
+                      text: AppLocalizations.of(context)!.exit,
                       onPressed: () {
                         showDialog(
                           barrierColor: Colors.grey.withAlpha(50),
@@ -102,7 +102,7 @@ class _PersonalAccountPageState extends State<PersonalAccountPage> {
                           builder: (context) => DefaultAlertDialog(
                             title: Text(
                               AppLocalizations.of(context)!
-                                  .messageDeleteYourAccount,
+                                  .messageExitInYourAccount,
                               textAlign: TextAlign.center,
                               maxLines: 1,
                               style: Style.titleText,
@@ -121,7 +121,7 @@ class _PersonalAccountPageState extends State<PersonalAccountPage> {
                                             context)
                                         .logout(context);
                                   },
-                                  text: AppLocalizations.of(context)!.delete,
+                                  text: AppLocalizations.of(context)!.exit,
                                   color: Style.primarySecondColor,
                                 ),
                               ),

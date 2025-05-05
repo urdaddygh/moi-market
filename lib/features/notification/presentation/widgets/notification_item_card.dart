@@ -46,7 +46,7 @@ class NotificationItemCard extends StatelessWidget {
                         height: Style.smallSpacing,
                       ),
                       Text(
-                        notification?.id?.toString() ?? '',
+                        notification?.title?.toString() ?? '',
                         style: Style.mainText.copyWith(fontWeight: FontWeight.w500),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

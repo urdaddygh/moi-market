@@ -10,6 +10,7 @@ import 'package:moi_market/core/cubit/language/language_state.dart';
 import 'package:moi_market/core/theme/app_theme.dart';
 import 'package:moi_market/features/auth/domain/repositories/auth_repository.dart';
 import 'package:moi_market/features/auth/presentation/cubit/auth_cubit.dart';
+import 'package:moi_market/features/home/domain/repositories/home_repository.dart';
 import 'package:moi_market/features/home/presentation/cubit/home_cubit.dart';
 import 'package:moi_market/features/notification/presentation/cubit/notification_cubit.dart';
 import 'package:moi_market/features/personal_account/presentation/cubit/personal_account_cubit.dart';
@@ -31,9 +32,6 @@ class _ApplicationState extends State<Application> {
 
   @override
   void initState() {
-    requestNotificationPermission();
-
-    setupInteractedMessage();
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('📩 Foreground сообщение: ${message.notification?.title}');
     });
@@ -79,29 +77,5 @@ class _ApplicationState extends State<Application> {
     );
   }
 
-  void requestNotificationPermission() async {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-    NotificationSettings settings = await messaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-
-    logger.d('🔔 Разрешение: ${settings.authorizationStatus}');
-  }
-
-  void setupInteractedMessage() async {
-    RemoteMessage? message =
-        await FirebaseMessaging.instance.getInitialMessage();
-    var token = await FirebaseMessaging.instance.getToken();
-    print('firebase token $token');
-    if (message != null) {
-      print('🚀 Открыто по уведомлению (terminated)');
-    }
-  }
 }

@@ -36,6 +36,7 @@
   "personalAccount": "Личный кабинет",
   "deleteAccount": "Удалить аккаунт",
   "messageDeleteYourAccount": "Удалить ваш аккаунт?",
+  "messageExitInYourAccount": "Выйти из аккаунта?",
   "thisActionIsIrreversible": "Это действие необратимо.",
 
   "notifications": "Уведомления",
@@ -52,6 +53,7 @@
   "messagePhotoEmpty": "Фотография не добавлена",
 
   "empty": "Пусто",
+  "exit": "Выйти",
   "done": "Готово",
   "delete": "Удалить",
   "cancel": "Отменить",

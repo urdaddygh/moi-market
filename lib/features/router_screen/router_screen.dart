@@ -6,6 +6,7 @@ import 'package:moi_market/core/widgets/default_alert_dialog.dart';
 import 'package:moi_market/core/widgets/default_elevated_button.dart';
 import 'package:moi_market/features/home/presentation/pages/home_page.dart';
 import 'package:moi_market/features/notification/presentation/pages/notification_page.dart';
+import 'package:moi_market/features/personal_account/presentation/cubit/personal_account_cubit.dart';
 import 'package:moi_market/features/personal_account/presentation/pages/personal_account_page.dart';
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_cubit.dart';
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_state.dart';
@@ -157,7 +158,7 @@ class _RouterScreenState extends State<RouterScreen> {
                   ),
                   _buildNavItemWithBadge(
                     isActive: currentIndex == 3,
-                    notifications: '25',
+                    notifications: BlocProvider.of<PersonalAccountCubit>(context).state.userInfo?.activeNotifications?.toString() ?? '0',
                     icon: Icons.notifications_none,
                   ),
                 ],

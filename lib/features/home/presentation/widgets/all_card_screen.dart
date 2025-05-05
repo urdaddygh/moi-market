@@ -9,18 +9,8 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:moi_market/features/home/presentation/widgets/second_tab.dart';
 import 'package:moi_market/features/home/presentation/widgets/third_tab.dart';
 
-class AllCardScreen extends StatefulWidget {
+class AllCardScreen extends StatelessWidget {
   const AllCardScreen({super.key});
-
-  @override
-  State<AllCardScreen> createState() => _AllCardScreenState();
-}
-
-class _AllCardScreenState extends State<AllCardScreen> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,15 +25,9 @@ class _AllCardScreenState extends State<AllCardScreen> {
                 firstTitle: AppLocalizations.of(context)!.all,
                 secondTitle: AppLocalizations.of(context)!.active,
                 thirdTitle: AppLocalizations.of(context)!.unActive,
-                firstTab: state.eventState == HomeEventState.loading
-                    ? const Center(child: CircularProgressIndicator())
-                    : const FirstTab(),
-                secondTab: state.eventState == HomeEventState.loading
-                    ? const Center(child: CircularProgressIndicator())
-                    : const SecondTab(),
-                thirdTab: state.eventState == HomeEventState.loading
-                    ? const Center(child: CircularProgressIndicator())
-                    : const ThirdTab(),
+                firstTab: const FirstTab(),
+                secondTab: const SecondTab(),
+                thirdTab: const ThirdTab(),
               );
             },
           ),

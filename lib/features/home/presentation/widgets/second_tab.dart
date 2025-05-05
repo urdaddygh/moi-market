@@ -46,6 +46,9 @@ void initState() {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
+        if(state.eventState == HomeEventState.loading){
+          return const Center(child: CircularProgressIndicator());
+        }
         if (state.activeGroups == null || state.activeGroups!.isEmpty) {
           return Center(
               child: Column(
@@ -67,9 +70,10 @@ void initState() {
                 ],
               ));
         }
+        
         return RefreshIndicator(
           onRefresh: () =>
-              BlocProvider.of<HomeCubit>(context).loadGroups(context: context, status: false),
+              BlocProvider.of<HomeCubit>(context).loadGroups(context: context, status: true),
           child: ListView.builder(
             physics: const AlwaysScrollableScrollPhysics(),
             controller: _scrollController,

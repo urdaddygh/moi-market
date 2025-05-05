@@ -19,14 +19,14 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<NotificationCubit>(context)
+    var notificationCubit = BlocProvider.of<NotificationCubit>(context);
+    notificationCubit
         .loadNotifications(context: context);
-    var state = BlocProvider.of<NotificationCubit>(context).state;
     _scrollController.addListener(() {
       if (_scrollController.position.pixels >=
           _scrollController.position.maxScrollExtent - 200) {
-        if (state.commonResponse?.next != null && !state.isLoadingMore) {
-          BlocProvider.of<NotificationCubit>(context)
+        if (notificationCubit.state.commonResponse?.next != null && !notificationCubit.state.isLoadingMore) {
+          notificationCubit
               .loadNotifications(context: context, isLoadMore: true);
         }
       }
@@ -74,9 +74,12 @@ class _NotificationListScreenState extends State<NotificationListScreen> {
                             ],
                           ))
                         : RefreshIndicator(
-                            onRefresh: () =>
-                                BlocProvider.of<NotificationCubit>(context)
-                                    .loadNotifications(context: context),
+                            onRefresh: () async {
+                              BlocProvider.of<NotificationCubit>(context)
+                                  .flushAllNotificationState();
+                              await BlocProvider.of<NotificationCubit>(context)
+                                  .loadNotifications(context: context);
+                            },
                             child: ListView.builder(
                               physics: const AlwaysScrollableScrollPhysics(),
                               controller: _scrollController,

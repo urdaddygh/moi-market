@@ -12,9 +12,11 @@ import 'package:moi_market/features/home/presentation/cubit/home_state.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ShowPhotoDialog extends StatelessWidget {
-  const ShowPhotoDialog({super.key, this.imageLink});
+  const ShowPhotoDialog({super.key, this.imageLink, this.ticketId, this.scheduleId});
 
   final String? imageLink;
+  final int? ticketId;
+  final int? scheduleId;
 
   @override
   Widget build(BuildContext context) {
@@ -101,10 +103,11 @@ class ShowPhotoDialog extends StatelessWidget {
                           child: Column(
                             children: [
                               DefaultElevatedButton(
-                                text: AppLocalizations.of(context)!.add,
+                                isLoading: state.eventState == HomeEventState.loading,
+                                text:state.attachment != null? AppLocalizations.of(context)!.done : AppLocalizations.of(context)!.add,
                                 onPressed: () => state.attachment != null
                                     ? BlocProvider.of<HomeCubit>(context)
-                                        .addReceipt(context: context, ticket: 0, schedule: 0)
+                                        .addReceipt(context: context, ticket: ticketId, schedule: scheduleId)
                                     : BlocProvider.of<HomeCubit>(context).choosePhoto(context, ImageSource.camera),
                               ),
                               const SizedBox(height: Style.middleSpacing + 2),

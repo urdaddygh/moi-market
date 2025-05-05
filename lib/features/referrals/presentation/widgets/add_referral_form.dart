@@ -56,6 +56,8 @@ class _AddReferralFormState extends State<AddReferralForm> {
                       ),
                       const SizedBox(height: 10),
                       DefaultTextFormField(
+                        startsWithPlus: true,
+                        keyboardType: TextInputType.phone,
                         hintText: AppLocalizations.of(context)!.phoneNumberReferral,
                         validator: TextFieldValidators.cantBeEmptyValidator(context: context),
                         controller: _phoneController,

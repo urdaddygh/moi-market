@@ -81,13 +81,15 @@ abstract class BaseApiService {
 
     String fileName = photo.path.split('/').last;
     formData.files.add(MapEntry(
-      "photo",
+      "cheque",
       await MultipartFile.fromFile(photo.path, filename: fileName),
     ));
-
+    logger.d('Form fields: ${formData.fields}');
+    logger.d('Files: ${formData.files.map((e) => e.key).toList()}');
     try {
       var response = await client.post(endpoint, queryParameters: queryParameters, data: formData);
-      if (response.statusCode != 200) {
+
+      if (response.statusCode != 200 && response.statusCode != 201) {
         throw StatusCodeException('${response.statusCode} - ${response.statusMessage}');
       }
 
