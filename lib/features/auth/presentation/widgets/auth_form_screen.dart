@@ -19,7 +19,7 @@ class AuthFormScreen extends StatefulWidget {
 
 class _AuthFormScreenState extends State<AuthFormScreen> {
   final TextEditingController _phoneController =
-      TextEditingController(text: kDebugMode ? '+996555112233' : '');
+      TextEditingController(text: kDebugMode ? '+996553088644' : '');
   final TextEditingController _passwordController =
       TextEditingController(text: kDebugMode ? '1q2w3e4r' : '');
   bool _obscure = true;

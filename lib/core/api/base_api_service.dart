@@ -59,7 +59,7 @@ abstract class BaseApiService {
       throw UnexpectedErrorException('Status - ${e.response?.statusCode}, error - ${e.error}, type - ${e.type}');
     } catch (e) {
       logger.e('[BaseApiService] Exception: $e');
-      throw UnexpectedErrorException('Произошла непредвиденная ошибка, попробуйте позже');
+      throw UnexpectedErrorException('Произошла непредвиденная ошибка, попробуйте позже - ${e}');
     }
   }
 

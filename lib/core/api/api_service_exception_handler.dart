@@ -31,7 +31,7 @@ class ApiServiceExceptionHandler {
       UiTools.showSnackBar(context: context, message: e.message);
     } on UnexpectedErrorException catch (e) {
       if (!context.mounted) return;
-      UiTools.showSnackBar(context: context, message: AppLocalizations.of(context)!.messageUnexpectedErrorOccurred);
+      UiTools.showSnackBar(context: context, message: '${AppLocalizations.of(context)!.messageUnexpectedErrorOccurred} - ${e.message}');
       logger.e('[ApiServiceExceptionHandler] UnexpectedErrorException occurred ${e.message}');
     } catch (e) {
       logger.e('[ApiServiceExceptionHandler] Exception occurred $e');

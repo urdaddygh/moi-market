@@ -48,7 +48,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     } catch (e) {
       if (!context.mounted) return;
-      UiTools.showSnackBar(context: context, message: 'Произошла непредвиденная ошибка');
+      UiTools.showSnackBar(context: context, message: 'Не удалось выбрать фотографию - $e');
       logger.e('Error choosing file: $e');
     }
   }
@@ -193,4 +193,18 @@ class HomeCubit extends Cubit<HomeState> {
   void flushAttachment() {
     emit(state.copyWith(attachment: null));
   }
+
+  void flushAllGroupState () {
+    emit(state.copyWith(
+        attachment: null,
+        activeGroups: null,
+        activeStatusCommonResponse: null,
+        commonResponse: null,
+        group: null,
+        groups: null,
+        unActiveGroups: null,
+        unActiveStatusCommonResponse: null,
+    ));
+  }
+
 }

@@ -11,7 +11,7 @@ class RequisitesWrapper extends StatelessWidget {
     return Container(
       width: double.infinity,
       decoration: BoxDecoration(
-          color: Style.primarySecondColor.withValues(alpha: 0.1), borderRadius: BorderRadius.all(Radius.circular(16))),
+          color: Style.primarySecondColor.withValues(alpha: 0.1), borderRadius: const BorderRadius.all(Radius.circular(16))),
       child: Padding(
         padding: const EdgeInsets.all(Style.defaultSpacing),
         child: Column(

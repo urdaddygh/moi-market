@@ -7,7 +7,6 @@ import 'package:moi_market/core/widgets/default_elevated_button.dart';
 import 'package:moi_market/features/notification/data/models/app_notification.dart';
 import 'package:moi_market/features/notification/presentation/cubit/notification_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:moi_market/features/notification/presentation/cubit/notification_state.dart';
 
 class NotificationItemCard extends StatelessWidget {
   const NotificationItemCard({super.key, this.onTap, this.notification});

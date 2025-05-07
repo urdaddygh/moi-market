@@ -63,4 +63,8 @@ class ReferralsCubit extends Cubit<ReferralsState> {
   void changeScreen(ReferralScreen screen) {
     emit(state.copyWith(referralScreen: screen));
   }
+
+  void flushAllReferralsState () {
+    emit(state.copyWith(referrals: null, referralScreen: ReferralScreen.listReferralsScreen));
+  }
 }

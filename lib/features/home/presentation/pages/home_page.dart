@@ -1,9 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:moi_market/core/widgets/default_custom_wrapper.dart';
-import 'package:moi_market/features/home/domain/repositories/home_repository.dart';
 import 'package:moi_market/features/home/presentation/cubit/home_cubit.dart';
 import 'package:moi_market/features/home/presentation/cubit/home_state.dart';
 import 'package:moi_market/features/home/presentation/widgets/all_card_screen.dart';

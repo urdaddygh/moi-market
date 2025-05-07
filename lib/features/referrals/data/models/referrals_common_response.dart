@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
-import 'package:moi_market/features/home/data/models/ticket.dart';
 import 'package:moi_market/features/referrals/data/models/referral.dart';
 
 part 'referrals_common_response.g.dart';

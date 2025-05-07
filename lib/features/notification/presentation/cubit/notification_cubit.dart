@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:get_it/get_it.dart';
 import 'package:moi_market/core/api/api_service_exception_handler.dart';
 import 'package:moi_market/features/notification/data/models/app_notification.dart';
@@ -68,9 +66,15 @@ class NotificationCubit extends Cubit<NotificationState> {
     ));
   }
 
-void flushAllNotificationState(){
-  emit(state.copyWith(commonResponse: null, notification: null, notifications: null, readNotifications: null, unreadNotifications: null));
-}
+void flushAllNotificationState() {
+    emit(state.copyWith(
+        commonResponse: null,
+        notification: null,
+        notifications: null,
+        readNotifications: null,
+        unreadNotifications: null,
+      ));
+  }
 
 Future<void> loadNotificationById({required int id, required BuildContext context}) async {
   if (state.eventState == NotificationEventState.loading || state.isLoadingMore) {

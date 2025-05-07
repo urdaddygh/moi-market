@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:moi_market/features/home/data/models/schedule.dart';
-import 'package:moi_market/features/personal_account/data/models/client.dart';
-import 'package:moi_market/features/home/data/models/payment.dart';
 
 part 'my_tickets.g.dart';
 

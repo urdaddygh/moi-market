@@ -1,5 +1,3 @@
-import 'package:moi_market/features/notification/data/api/notification_api.dart';
-import 'package:moi_market/features/notification/domain/repositories/notification_repository.dart';
 import 'package:moi_market/features/referrals/data/api/referrals_api.dart';
 import 'package:moi_market/features/referrals/data/models/referral.dart';
 import 'package:moi_market/features/referrals/data/models/referrals_common_response.dart';

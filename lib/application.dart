@@ -1,4 +1,3 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,13 +9,11 @@ import 'package:moi_market/core/cubit/language/language_state.dart';
 import 'package:moi_market/core/theme/app_theme.dart';
 import 'package:moi_market/features/auth/domain/repositories/auth_repository.dart';
 import 'package:moi_market/features/auth/presentation/cubit/auth_cubit.dart';
-import 'package:moi_market/features/home/domain/repositories/home_repository.dart';
 import 'package:moi_market/features/home/presentation/cubit/home_cubit.dart';
 import 'package:moi_market/features/notification/presentation/cubit/notification_cubit.dart';
 import 'package:moi_market/features/personal_account/presentation/cubit/personal_account_cubit.dart';
 import 'package:moi_market/features/referrals/presentation/cubit/referrals_cubit.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:moi_market/main.dart';
 
 class Application extends StatefulWidget {
   const Application({super.key, this.lang});
