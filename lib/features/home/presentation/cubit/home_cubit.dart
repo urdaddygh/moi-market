@@ -165,7 +165,7 @@ class HomeCubit extends Cubit<HomeState> {
     await ApiServiceExceptionHandler().apiServiceExceptionHandler(
       context: context,
       code: () async {
-        final data = await GetIt.I
+        await GetIt.I
             .get<HomeRepository>()
             .addReceipt(ticket: ticket, schedule: schedule, cheque: File(state.attachment!.path));
 

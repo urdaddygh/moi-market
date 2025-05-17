@@ -5,7 +5,7 @@ import 'package:moi_market/features/notification/data/models/app_notification.da
 import 'package:moi_market/features/notification/data/models/common_notifications_respons.dart';
 
 class NotificationApi extends BaseApiService {
-  NotificationApi(super.client);
+  NotificationApi();
 
   Future<CommonNotificationsRespons> getNotifications({required int limit, required int page}) async {
     var res = await baseRequest(

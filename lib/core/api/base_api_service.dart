@@ -1,26 +1,24 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
+import 'package:get_it/get_it.dart';
 import 'package:moi_market/core/constants/request_type.dart';
 import 'package:moi_market/core/exceptions/data_is_empty_exception.dart';
 import 'package:moi_market/core/exceptions/status_code_exception.dart';
 import 'package:moi_market/core/exceptions/unexpected_error_exception.dart';
 import 'package:moi_market/main.dart';
 
-abstract class BaseApiService {
-  final Dio client;
-
-  BaseApiService(this.client);
-
+abstract class BaseApiService {  
   Future<dynamic> baseRequest({
     required String endpoint,
     Map<String, dynamic>? queryParameters,
     Object? data,
     RequestType type = RequestType.post,
   }) async {
+    final client = GetIt.I.get<Dio>();
     final strQueryParams =
         queryParameters == null ? '' : queryParameters.entries.fold<String>('?', (prev, e) => '$prev&${e.key}=${e.value}');
-
+    // print('auth - ${client.options.headers}');
     logger.d('[BaseApiService] sending request to ${client.options.baseUrl}$endpoint$strQueryParams');
     if (data != null) logger.d(data);
 
@@ -69,6 +67,7 @@ abstract class BaseApiService {
     required File photo,
     Map<String, dynamic>? extraFields,
   }) async {
+    final client = GetIt.I.get<Dio>();
     logger.d('[ApiService] sending request to ${client.options.baseUrl}$endpoint');
 
     FormData formData = FormData();

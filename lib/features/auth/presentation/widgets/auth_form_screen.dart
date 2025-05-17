@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:moi_market/core/theme/style.dart';
@@ -19,9 +18,9 @@ class AuthFormScreen extends StatefulWidget {
 
 class _AuthFormScreenState extends State<AuthFormScreen> {
   final TextEditingController _phoneController =
-      TextEditingController(text: kDebugMode ? '+996553088644' : '');
+      TextEditingController(text: '');
   final TextEditingController _passwordController =
-      TextEditingController(text: kDebugMode ? '1q2w3e4r' : '');
+      TextEditingController(text: '');
   bool _obscure = true;
 
   void _toggleVisibility() {

@@ -20,7 +20,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     requestNotificationPermission();
-    setupInteractedMessage();
     super.initState();
   }
   
@@ -54,18 +53,4 @@ class _HomePageState extends State<HomePage> {
     logger.d('🔔 Разрешение: ${settings.authorizationStatus}');
   }
 
-  void setupInteractedMessage() async {
-    RemoteMessage? message =
-        await FirebaseMessaging.instance.getInitialMessage();
-    // var token = await FirebaseMessaging.instance.getToken();
-    // if(token != null){
-    // await GetIt.I
-    //         .get<HomeRepository>()
-    //         .sendFirebaseToken(token: token);
-    // }
-    // print('firebase token $token');
-    if (message != null) {
-      print('🚀 Открыто по уведомлению (terminated)');
-    }
-  }
 }

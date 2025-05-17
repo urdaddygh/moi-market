@@ -4,7 +4,7 @@ import 'package:moi_market/core/exceptions/response_is_null_exception.dart';
 import 'package:moi_market/features/auth/data/models/success_login.dart';
 
 class AuthApi extends BaseApiService {
-  AuthApi(super.client);
+  AuthApi();
 
   Future<SuccessLogin> login({required String phone, required String password}) async {
     var res = await baseRequest(
@@ -20,4 +20,5 @@ class AuthApi extends BaseApiService {
     
     return SuccessLogin.fromJson(res);
   }
+
 }

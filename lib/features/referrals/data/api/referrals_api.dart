@@ -5,7 +5,7 @@ import 'package:moi_market/features/referrals/data/models/referral.dart';
 import 'package:moi_market/features/referrals/data/models/referrals_common_response.dart';
 
 class ReferralsApi extends BaseApiService {
-  ReferralsApi(super.client);
+  ReferralsApi();
 
   Future<ReferralsCommonResponse?> getReferrals() async {
     var res = await baseRequest(endpoint: 'referrals/', type: RequestType.get);

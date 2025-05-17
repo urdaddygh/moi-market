@@ -33,7 +33,8 @@ class AuthCubit extends Cubit<AuthState> {
         await GetIt.I.get<LocalStorage>().writeAccount(res);
 
         if (!context.mounted) return;
-        registerApiServiceDi(token: res.access);
+        await registerApiServiceDi(token: res.access);
+        if (!context.mounted) return;
         context.goNamed(Routes.main);
       },
     );

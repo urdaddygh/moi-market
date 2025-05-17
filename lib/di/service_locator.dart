@@ -1,5 +1,4 @@
 
-import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:moi_market/core/local_storage/local_storage.dart';
 import 'package:moi_market/core/local_storage/secured_local_storage.dart';
@@ -53,7 +52,7 @@ class ServiceLocator {
 
   void initAuthModule() {
     if (!getIt.isRegistered<AuthApi>()) {
-      getIt.registerLazySingleton(() => AuthApi(getIt<Dio>()));
+      getIt.registerLazySingleton(() => AuthApi());
     }
 
     if (!getIt.isRegistered<AuthRepository>()) {
@@ -64,7 +63,7 @@ class ServiceLocator {
 
   void initHomeModule() {
     if (!getIt.isRegistered<HomeApi>()) {
-      getIt.registerLazySingleton(() => HomeApi(getIt<Dio>()));
+      getIt.registerLazySingleton(() => HomeApi());
     }
 
     if (!getIt.isRegistered<HomeRepository>()) {
@@ -75,7 +74,7 @@ class ServiceLocator {
 
   void initReferralsModule() {
     if (!getIt.isRegistered<ReferralsApi>()) {
-      getIt.registerLazySingleton(() => ReferralsApi(getIt<Dio>()));
+      getIt.registerLazySingleton(() => ReferralsApi());
     }
 
     if (!getIt.isRegistered<ReferralsRepository>()) {
@@ -86,7 +85,7 @@ class ServiceLocator {
 
   void initPersonalAccountModule() {
     if (!getIt.isRegistered<PersonalAccountApi>()) {
-      getIt.registerLazySingleton(() => PersonalAccountApi(getIt<Dio>()));
+      getIt.registerLazySingleton(() => PersonalAccountApi());
     }
 
     if (!getIt.isRegistered<PersonalAccountRepository>()) {
@@ -97,7 +96,7 @@ class ServiceLocator {
 
   void initNotificationModule() {
     if (!getIt.isRegistered<NotificationApi>()) {
-      getIt.registerLazySingleton(() => NotificationApi(getIt<Dio>()));
+      getIt.registerLazySingleton(() => NotificationApi());
     }
 
     if (!getIt.isRegistered<NotificationRepository>()) {

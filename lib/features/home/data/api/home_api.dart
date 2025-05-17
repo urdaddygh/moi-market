@@ -6,12 +6,12 @@ import 'package:moi_market/core/exceptions/response_is_null_exception.dart';
 import 'package:moi_market/features/home/data/models/groups_common_response.dart';
 
 class HomeApi extends BaseApiService {
-  HomeApi(super.client);
+  HomeApi();
 
-  Future<GroupsCommonResponse> getGroups({required int limit, required int page, String? status}) async {
-
+  Future<GroupsCommonResponse> getGroups(
+      {required int limit, required int page, String? status}) async {
     Map<String, dynamic> queryParameters;
-    if(status != null){
+    if (status != null) {
       queryParameters = {
         "limit": limit,
         "page": page,
@@ -25,16 +25,20 @@ class HomeApi extends BaseApiService {
     }
 
     var res = await baseRequest(
-        endpoint: 'groups/',
-        queryParameters: queryParameters,
-        type: RequestType.get,);
+      endpoint: 'groups/',
+      queryParameters: queryParameters,
+      type: RequestType.get,
+    );
 
     if (res == null) throw ResponseIsNullException('Response is null');
     // print('RESPONSE BODY: ${res.toString()}');
     return GroupsCommonResponse.fromJson(res);
   }
 
-  Future<dynamic> addReceipt({required File cheque, required int schedule, required int ticket}) async {
+  Future<dynamic> addReceipt(
+      {required File cheque,
+      required int schedule,
+      required int ticket}) async {
     var res = await uploadMediaResponse(extraFields: {
       "schedule": schedule,
       "ticket": ticket,
@@ -45,17 +49,17 @@ class HomeApi extends BaseApiService {
     return res;
   }
 
-    Future<dynamic> sendFirebaseToken({required String token}) async {
-
+  Future<dynamic> sendFirebaseToken({required String token}) async {
     Map<String, dynamic> body;
-      body = {
-        "token": token,
-      };
+    body = {
+      "token": token,
+    };
 
     var res = await baseRequest(
-        data: body,
-        endpoint: 'store-device-token/',
-        type: RequestType.post,);
+      data: body,
+      endpoint: 'store-device-token/',
+      type: RequestType.post,
+    );
 
     if (res == null) throw ResponseIsNullException('Response is null');
 

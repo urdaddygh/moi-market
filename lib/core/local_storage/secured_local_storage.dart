@@ -19,7 +19,10 @@ class SecuredLocalStorage extends LocalStorage {
   Future<SuccessLogin?> fetchAccount() async {
     try {
       var account = await storage.read(key: accountKey);
-      return SuccessLogin.fromJson(jsonDecode(account ?? ''));
+      if(account == null){
+        return null;
+      }
+      return SuccessLogin.fromJson(jsonDecode(account));
     } catch (e) {
       logger.e('[SecuredLocalStorage] $e');
       return null;

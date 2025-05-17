@@ -4,7 +4,7 @@ import 'package:moi_market/core/exceptions/response_is_null_exception.dart';
 import 'package:moi_market/features/personal_account/data/models/client.dart';
 
 class PersonalAccountApi extends BaseApiService {
-  PersonalAccountApi(super.client);
+  PersonalAccountApi();
 
   Future<Client> getUserInfo() async {
     var res = await baseRequest(endpoint: 'me/', type: RequestType.get);
