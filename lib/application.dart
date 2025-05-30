@@ -31,16 +31,7 @@ class Application extends StatefulWidget {
 class _ApplicationState extends State<Application> {
   @override
   void initState() {
-    _sendFirebaseToken();
     super.initState();
-  }
-
-  void _sendFirebaseToken() async {
-    String? token = await FirebaseMessaging.instance.getToken();
-    logger.d('FCM Token: $token');
-    if (token != null) {
-      await GetIt.I.get<HomeRepository>().sendFirebaseToken(token: token);
-    }
   }
 
   @override
